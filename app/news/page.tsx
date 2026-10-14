@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { news, type NewsCategory } from "@/content/data";
+import type { NewsCategory } from "@/content/data";
+import { getAllNews } from "@/lib/news";
 import { NewsCard, PageHead } from "@/components/ui";
 
 export const metadata = { title: "الأخبار" };
@@ -9,9 +10,8 @@ const categories: NewsCategory[] = ["احتفالات", "رحلات", "مجتم�
 
 export default async function News({ searchParams }: { searchParams: Promise<{ cat?: string; page?: string }> }) {
   const { cat, page } = await searchParams;
-  const filtered = [...news]
-    .filter((n) => !cat || n.category === cat)
-    .sort((a, b) => b.date.localeCompare(a.date));
+  const filtered = (await getAllNews())
+    .filter((n) => !cat || n.category === cat);
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const current = Math.min(pages, Math.max(1, Number(page) || 1));
   const shown = filtered.slice((current - 1) * PER_PAGE, current * PER_PAGE);

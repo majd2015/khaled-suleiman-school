@@ -11,6 +11,8 @@ export type NewsItem = {
   body: string[];
   image?: string;
   grades?: number[];
+  source?: "site" | "facebook";
+  sourceUrl?: string;
 };
 
 export const news: NewsItem[] = [

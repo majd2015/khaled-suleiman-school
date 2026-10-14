@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { news } from "@/content/data";
+import { getNewsItem } from "@/lib/news";
 import { PageHead, formatDate } from "@/components/ui";
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return news.map((n) => ({ slug: n.slug }));
@@ -9,13 +12,13 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const item = news.find((n) => n.slug === slug);
+  const item = await getNewsItem(slug);
   return { title: item?.title, description: item?.excerpt };
 }
 
 export default async function NewsItemPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const item = news.find((n) => n.slug === slug);
+  const item = await getNewsItem(slug);
   if (!item) notFound();
   return (
     <>
@@ -24,6 +27,7 @@ export default async function NewsItemPage({ params }: { params: Promise<{ slug:
         <article className="container prose">
           {item.image && <img src={item.image} alt="" style={{ borderRadius: 14, marginBottom: 16 }} />}
           {item.body.map((p, i) => <p key={i}>{p}</p>)}
+          {item.sourceUrl && <p><a href={item.sourceUrl}>عرض المنشور على فيسبوك</a></p>}
           <p><Link href="/news">→ العودة إلى الأخبار</Link></p>
         </article>
       </section>

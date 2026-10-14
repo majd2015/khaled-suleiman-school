@@ -56,3 +56,35 @@ export async function publishEverywhere(p: SocialPost, targets: { facebook?: boo
   if (targets.instagram) jobs.push(publishToInstagram(p));
   return Promise.all(jobs);
 }
+
+// الاتجاه الثاني: سحب منشورات صفحة الفيسبوك إلى أخبار الموقع.
+// المنشورات التي نشرها الموقع نفسه (فيها رابط /news/) تُتجاهل حتى لا يتكرر الخبر.
+export type FacebookPost = { id: string; message: string; date: string; image?: string; permalink: string };
+
+export async function fetchFacebookPosts(limit = 25): Promise<FacebookPost[]> {
+  const pageId = process.env.FACEBOOK_PAGE_ID;
+  const token = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  if (!pageId || !token) return [];
+  const siteUrl = (process.env.SITE_URL || "").replace(/\/$/, "");
+  const url =
+    graph(`${pageId}/posts`) +
+    `?fields=id,message,created_time,full_picture,permalink_url&limit=${limit}&access_token=${token}`;
+  try {
+    const res = await fetch(url, { next: { revalidate: 900 } });
+    if (!res.ok) return [];
+    const data = (await res.json()) as {
+      data?: { id: string; message?: string; created_time: string; full_picture?: string; permalink_url: string }[];
+    };
+    return (data.data || [])
+      .filter((p) => p.message && !(siteUrl && p.message.includes(`${siteUrl}/news/`)))
+      .map((p) => ({
+        id: p.id,
+        message: p.message!,
+        date: p.created_time.slice(0, 10),
+        image: p.full_picture,
+        permalink: p.permalink_url,
+      }));
+  } catch {
+    return [];
+  }
+}

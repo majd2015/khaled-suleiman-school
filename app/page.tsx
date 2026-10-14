@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { site } from "@/site.config";
-import { announcements, challenges, didYouKnow, events, grades, news } from "@/content/data";
+import { announcements, challenges, didYouKnow, events, grades } from "@/content/data";
+import { getAllNews } from "@/lib/news";
 import { AnnouncementCard, NewsCard, Pending, formatDate } from "@/components/ui";
 
-export default function Home() {
-  const latest = [...news].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+export const revalidate = 900;
+
+export default async function Home() {
+  const latest = (await getAllNews()).slice(0, 3);
   const upcoming = [...events].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
   const today = challenges[new Date().getDate() % challenges.length];
   const fact = didYouKnow[new Date().getDate() % didYouKnow.length];
