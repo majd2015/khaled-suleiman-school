@@ -1,3 +1,4 @@
+import Illustration from "@/components/Illustration";
 import { PageHead } from "@/components/ui";
 import SubmitForm from "@/components/SubmitForm";
 
@@ -8,7 +9,8 @@ export default function Debate() {
     <>
       <PageHead title="منبر المناظرة" subtitle="سؤال هذا الأسبوع" />
       <section className="section">
-        <div className="container prose">
+        <div className="container split">
+          <div>
           <div className="card" style={{ marginBottom: 20 }}>
             <h3>هل يجب أن يُسمح بالهاتف المحمول في الاستراحة؟ (سؤال تجريبي)</h3>
           </div>
@@ -17,6 +19,8 @@ export default function Debate() {
             { name: "opinion", label: "رأيي", type: "textarea" },
             { name: "evidence", label: "الدليل على رأيي", type: "textarea" },
           ]} />
+          </div>
+          <Illustration id="debate-dialogue" className="art" />
         </div>
       </section>
     </>

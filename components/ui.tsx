@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Announcement, NewsItem } from "@/content/data";
+import { Icon } from "@/components/icons";
 
 export function PageHead({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -23,7 +24,7 @@ export function formatDate(iso: string) {
 export function NewsCard({ item }: { item: NewsItem }) {
   return (
     <Link href={`/news/${item.slug}`} className="card link" style={{ color: "inherit" }}>
-      <div className="thumb">{item.image ? <img src={item.image} alt="" /> : "📰"}</div>
+      <div className="thumb">{item.image ? <img src={item.image} alt="" /> : <Icon name="news" size={40} />}</div>
       <div className="meta">
         <span className="badge">{item.category}</span>
         <span>{formatDate(item.date)}</span>

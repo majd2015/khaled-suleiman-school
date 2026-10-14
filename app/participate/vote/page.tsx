@@ -1,3 +1,4 @@
+import Illustration from "@/components/Illustration";
 import { PageHead } from "@/components/ui";
 import Poll from "@/components/Poll";
 
@@ -8,8 +9,11 @@ export default function Vote() {
     <>
       <PageHead title="التصويت" subtitle="رأيك يهمّنا" />
       <section className="section">
-        <div className="container prose">
+        <div className="container split">
+          <div>
           <Poll id="trip-2026" question="إلى أين تفضّل أن تكون الرحلة السنوية؟ (استطلاع تجريبي)" options={["متحف العلوم", "محمية طبيعية", "مدينة تاريخية"]} />
+          </div>
+          <Illustration id="vote-voice" className="art" />
         </div>
       </section>
     </>

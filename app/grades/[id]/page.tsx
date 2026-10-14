@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { announcements, challenges, events, grades, news } from "@/content/data";
+import Illustration from "@/components/Illustration";
+import { gradeIllustration } from "@/content/assets";
 import { AnnouncementCard, NewsCard, PageHead, formatDate } from "@/components/ui";
 
 export function generateStaticParams() {
@@ -24,10 +26,14 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
       <PageHead title={grade.name} subtitle={grade.motto} />
       <section className="section">
         <div className="container">
-          <p className="prose">{grade.intro}</p>
-
-          <h2>ماذا نتوقّع منّي هذه السنة؟</h2>
-          <ul>{grade.expectations.map((e) => <li key={e}>{e}</li>)}</ul>
+          <div className="split">
+            <div>
+              <p className="prose">{grade.intro}</p>
+              <h2>ماذا نتوقّع منّي هذه السنة؟</h2>
+              <ul>{grade.expectations.map((e) => <li key={e}>{e}</li>)}</ul>
+            </div>
+            <Illustration id={gradeIllustration[grade.id]} color={grade.color} priority className="art" />
+          </div>
 
           <h2>الشُّعب</h2>
           <div className="grid">

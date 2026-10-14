@@ -1,5 +1,6 @@
 import { site } from "@/site.config";
 import { PageHead } from "@/components/ui";
+import { IconBadge } from "@/components/icons";
 
 export const metadata = { title: "ثبّت التطبيق" };
 
@@ -18,6 +19,7 @@ export default function AppPage() {
             <p>افتح الموقع في Chrome، اضغط القائمة ⋮ ثم &quot;تثبيت التطبيق&quot;.</p>
           </div>
           <div className="card">
+            <IconBadge name="install" />
             <h3>ماذا يقدّم؟</h3>
             <p>كل أقسام {site.name} في أيقونة على شاشة هاتفك.</p>
           </div>

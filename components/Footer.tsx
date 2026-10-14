@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/site.config";
+import { Icon } from "@/components/icons";
 
 export default function Footer() {
   const { contact, social } = site;
@@ -14,9 +15,9 @@ export default function Footer() {
           <div>
             <h4>تواصل معنا</h4>
             <ul>
-              <li>العنوان: {contact.address}</li>
-              <li>هاتف: {contact.phone}</li>
-              <li>بريد: {contact.email}</li>
+              <li className="inline-icon"><Icon name="address" size={18} />{contact.address}</li>
+              <li className="inline-icon"><Icon name="phone" size={18} />{contact.phone}</li>
+              <li className="inline-icon"><Icon name="contact" size={18} />{contact.email}</li>
             </ul>
           </div>
           <div>

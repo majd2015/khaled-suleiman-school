@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { challenges } from "@/content/data";
+import Illustration from "@/components/Illustration";
 import { PageHead } from "@/components/ui";
 
 export const metadata = { title: "تحدَّ نفسك" };
@@ -13,6 +14,10 @@ export default async function Challenges({ searchParams }: { searchParams: Promi
       <PageHead title="تحدَّ نفسك" subtitle="تحديات في كل المواد، مع تلميحات تدريجية" />
       <section className="section">
         <div className="container">
+          <div className="split" style={{ marginBottom: 24 }}>
+            <p className="prose">اختر تحدّيًا يناسب صفك. لكل تحدٍّ تلميحات تظهر واحدًا تلو الآخر، وتقدّمك يُحفظ على جهازك.</p>
+            <Illustration id="challenge-lab" className="art" />
+          </div>
           <nav className="filters">
             <Link href="/challenges" className={!subject ? "active" : ""}>الكل</Link>
             {subjects.map((s) => (

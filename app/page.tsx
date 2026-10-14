@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { site } from "@/site.config";
 import { announcements, challenges, didYouKnow, events, grades } from "@/content/data";
+import Illustration from "@/components/Illustration";
+import { gradeIllustration } from "@/content/assets";
 import { getAllNews } from "@/lib/news";
+import { IconBadge } from "@/components/icons";
 import { AnnouncementCard, NewsCard, Pending, formatDate } from "@/components/ui";
 
 export const revalidate = 900;
@@ -15,7 +18,8 @@ export default async function Home() {
   return (
     <>
       <section className="hero">
-        <div className="container">
+        <div className="container hero-grid">
+          <div>
           <h1>{site.name}</h1>
           <p className="tagline">{site.tagline}</p>
           <p>
@@ -25,21 +29,26 @@ export default async function Home() {
             <Link href="/grades" className="btn">الصفوف</Link>
             <Link href="/news" className="btn ghost">آخر الأخبار</Link>
           </div>
+          </div>
+          <Illustration id="home-hero" priority className="hero-art" />
         </div>
       </section>
 
       <div className="container">
         <div className="strip">
           <div className="card">
+            <IconBadge name="challenges" />
             <h3>تحدّي اليوم</h3>
             <p>{today.title} · {today.subject}</p>
             <Link href={`/challenges/${today.slug}`}>ابدأ التحدّي ←</Link>
           </div>
           <div className="card">
+            <IconBadge name="values" />
             <h3>هل تعلم؟</h3>
             <p>{fact}</p>
           </div>
           <div className="card">
+            <IconBadge name="newsletter" />
             <h3>النشرة الشهرية</h3>
             <p>قصص من الصفوف وسؤال للنقاش في البيت.</p>
             <Link href="/newsletter">اقرأ العدد الأخير ←</Link>
@@ -97,6 +106,7 @@ export default async function Home() {
           <div className="grid">
             {grades.map((g) => (
               <Link key={g.id} href={`/grades/${g.id}`} className="card link grade-card" style={{ color: "inherit", ["--gc" as string]: g.color }}>
+                <Illustration id={gradeIllustration[g.id]} color={g.color} className="card-art" />
                 <h3>{g.name}</h3>
                 <p className="motto">{g.motto}</p>
                 <p>{g.intro}</p>

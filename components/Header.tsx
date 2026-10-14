@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { nav, site } from "@/site.config";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -25,13 +26,16 @@ export default function Header() {
               <small>{site.tagline}</small>
             </span>
           </Link>
-          <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open}>
-            القائمة
+          <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="القائمة">
+            {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
           </button>
           <ul className={`nav${open ? " open" : ""}`} onClick={() => setOpen(false)}>
             {nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
+                <Link href={item.href}>
+                  {item.label}
+                  {"children" in item && <ChevronDown className="chev" size={16} aria-hidden="true" />}
+                </Link>
                 {"children" in item && (
                   <ul className="sub">
                     {item.children.map((c) => (
