@@ -15,8 +15,9 @@ export function GradesLabel({ grades }: { grades: number[] }) {
   return <>{grades.length ? grades.map((g) => `الصف ${g}`).join("، ") : "كل المدرسة"}</>;
 }
 
-export function DateCell({ iso }: { iso: string }) {
-  return <>{formatDate(iso.slice(0, 10))}</>;
+export function DateCell({ iso }: { iso: string | Date }) {
+  const v = typeof iso === "string" ? iso : iso.toISOString();
+  return <>{formatDate(v.slice(0, 10))}</>;
 }
 
 export function Empty({ children }: { children: React.ReactNode }) {

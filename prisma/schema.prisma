@@ -1,0 +1,157 @@
+// قاعدة بيانات موقع المدرسة (PostgreSQL على Coolify)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  admin   // كل شيء، بما فيه المستخدمون
+  editor  // المحتوى والرسائل والتصويت
+  teacher // مراجعة مشاركات الطلاب فقط
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String   @default("")
+  passwordHash String
+  role         Role
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  news         News[]
+  reviews      Submission[]
+}
+
+enum NewsStatus {
+  draft
+  published
+}
+
+model News {
+  id               String     @id @default(uuid())
+  slug             String     @unique
+  title            String
+  excerpt          String     @default("")
+  body             String     @default("")
+  category         String     @default("تعليم")
+  grades           Int[]
+  imageUrl         String?
+  imageConsent     Boolean    @default(false) // موافقة الأهل إن ظهر طلاب في الصورة
+  status           NewsStatus @default(draft)
+  publishedAt      DateTime   @default(now()) @db.Date
+  facebookPostId   String?
+  instagramMediaId String?
+  authorId         String?
+  author           User?      @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  socialPosts      SocialPost[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@index([status, publishedAt])
+}
+
+model Announcement {
+  id        String    @id @default(uuid())
+  title     String
+  body      String    @default("")
+  urgent    Boolean   @default(false)
+  grades    Int[]
+  date      DateTime  @default(now()) @db.Date
+  expiresOn DateTime? @db.Date
+  createdAt DateTime  @default(now())
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  title     String
+  date      DateTime @db.Date
+  type      String // امتحان | نشاط | عطلة | عام
+  confirmed Boolean  @default(true)
+  grades    Int[]
+  createdAt DateTime @default(now())
+
+  @@index([date])
+}
+
+enum SubmissionKind {
+  debate
+  kind_word
+  reading
+}
+
+enum SubmissionStatus {
+  pending
+  approved
+  rejected
+}
+
+// مشاركات الطلاب: لا تظهر في الموقع قبل موافقة معلّم
+model Submission {
+  id           String           @id @default(uuid())
+  kind         SubmissionKind
+  content      Json
+  authorName   String?
+  showName     Boolean          @default(false)
+  status       SubmissionStatus @default(pending)
+  reviewedById String?
+  reviewedBy   User?            @relation(fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt   DateTime?
+  createdAt    DateTime         @default(now())
+
+  @@index([kind, status])
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String?
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Poll {
+  id        String       @id @default(uuid())
+  question  String
+  active    Boolean      @default(true)
+  options   PollOption[]
+  votes     PollVote[]
+  createdAt DateTime     @default(now())
+}
+
+model PollOption {
+  id       String     @id @default(uuid())
+  pollId   String
+  poll     Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  label    String
+  position Int        @default(0)
+  votes    PollVote[]
+}
+
+model PollVote {
+  pollId    String
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId  String
+  option    PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  voterHash String // بصمة مجهولة للجهاز لمنع التصويت المتكرر
+  createdAt DateTime   @default(now())
+
+  @@id([pollId, voterHash])
+}
+
+// سجل النشر على فيسبوك وإنستجرام
+model SocialPost {
+  id         String   @id @default(uuid())
+  newsId     String?
+  news       News?    @relation(fields: [newsId], references: [id], onDelete: SetNull)
+  platform   String // facebook | instagram
+  ok         Boolean
+  externalId String?
+  error      String?
+  createdAt  DateTime @default(now())
+}

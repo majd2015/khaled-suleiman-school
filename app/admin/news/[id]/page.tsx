@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 import { GradeChecks } from "@/components/admin";
 import { deleteNews, saveNews } from "../../actions";
 
@@ -22,18 +23,12 @@ export default async function EditNews({
 }) {
   const { id } = await params;
   const { e, saved, social } = await searchParams;
-  const { supabase } = await requireRole(["admin", "editor"]);
+  await requireRole(["admin", "editor"]);
 
   const isNew = id === "new";
-  let item = null;
-  if (!isNew) {
-    const { data } = await supabase.from("news").select("*").eq("id", id).single();
-    if (!data) notFound();
-    item = data;
-  }
-  const { data: log } = isNew
-    ? { data: [] }
-    : await supabase.from("social_posts").select("platform,ok,error,created_at").eq("news_id", id).order("created_at", { ascending: false });
+  const item = isNew ? null : await db().news.findUnique({ where: { id } });
+  if (!isNew && !item) notFound();
+  const log = isNew ? [] : await db().socialPost.findMany({ where: { newsId: id }, orderBy: { createdAt: "desc" } });
 
   return (
     <>
@@ -61,33 +56,33 @@ export default async function EditNews({
           <label>التصنيف
             <select name="category" defaultValue={item?.category ?? "تعليم"}>{categories.map((c) => <option key={c}>{c}</option>)}</select>
           </label>
-          <label>التاريخ<input type="date" name="published_at" defaultValue={item?.published_at ?? new Date().toISOString().slice(0, 10)} /></label>
+          <label>التاريخ<input type="date" name="published_at" defaultValue={(item?.publishedAt ?? new Date()).toISOString().slice(0, 10)} /></label>
         </div>
         <GradeChecks selected={item?.grades ?? []} />
 
-        <label>الصورة {item?.image_url ? "(اختر صورة جديدة لاستبدالها)" : ""}
+        <label>الصورة {item?.imageUrl ? "(اختر صورة جديدة لاستبدالها)" : ""}
           <input type="file" name="image" accept="image/*" />
         </label>
-        {item?.image_url && (
+        {item?.imageUrl && (
           <div>
-            <img src={item.image_url} alt="" style={{ maxWidth: 260, borderRadius: 10 }} />
+            <img src={item.imageUrl} alt="" style={{ maxWidth: 260, borderRadius: 10 }} />
             <label style={{ fontWeight: 400 }}><input type="checkbox" name="remove_image" /> إزالة الصورة</label>
           </div>
         )}
         <label style={{ fontWeight: 400 }}>
-          <input type="checkbox" name="image_consent" defaultChecked={item?.image_consent} /> إذا ظهر طلاب في الصورة: لدينا موافقة الأهل على النشر
+          <input type="checkbox" name="image_consent" defaultChecked={item?.imageConsent} /> إذا ظهر طلاب في الصورة: لدينا موافقة الأهل على النشر
         </label>
 
         <fieldset className="checks">
           <legend>النشر</legend>
           <label><input type="checkbox" name="publish" defaultChecked={item?.status === "published"} /> منشور في الموقع</label>
           <label>
-            <input type="checkbox" name="to_facebook" disabled={!!item?.facebook_post_id} defaultChecked={isNew} />
-            {item?.facebook_post_id ? " نُشر على فيسبوك" : " انشر على فيسبوك"}
+            <input type="checkbox" name="to_facebook" disabled={!!item?.facebookPostId} defaultChecked={isNew} />
+            {item?.facebookPostId ? " نُشر على فيسبوك" : " انشر على فيسبوك"}
           </label>
           <label>
-            <input type="checkbox" name="to_instagram" disabled={!!item?.instagram_media_id} defaultChecked={isNew} />
-            {item?.instagram_media_id ? " نُشر على إنستجرام" : " انشر على إنستجرام (يحتاج صورة)"}
+            <input type="checkbox" name="to_instagram" disabled={!!item?.instagramMediaId} defaultChecked={isNew} />
+            {item?.instagramMediaId ? " نُشر على إنستجرام" : " انشر على إنستجرام (يحتاج صورة)"}
           </label>
         </fieldset>
         <p className="meta">النشر على فيسبوك وإنستجرام يتم مرة واحدة عند حفظ خبر منشور.</p>
@@ -101,12 +96,12 @@ export default async function EditNews({
         </form>
       )}
 
-      {!!log?.length && (
+      {!!log.length && (
         <>
           <h3 style={{ marginTop: 24 }}>سجل النشر</h3>
           <ul>
             {log.map((l, i) => (
-              <li key={i}>{l.platform}: {l.ok ? "نجح" : `فشل (${l.error})`} · {new Date(l.created_at).toLocaleString("ar")}</li>
+              <li key={i}>{l.platform}: {l.ok ? "نجح" : `فشل (${l.error})`} · {l.createdAt.toLocaleString("ar")}</li>
             ))}
           </ul>
         </>

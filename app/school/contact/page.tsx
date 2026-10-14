@@ -2,7 +2,7 @@ import { site } from "@/site.config";
 import { PageHead } from "@/components/ui";
 import { Icon } from "@/components/icons";
 import ContactForm from "@/components/ContactForm";
-import { isDbConfigured } from "@/lib/supabase/server";
+import { isDbConfigured } from "@/lib/prisma";
 
 export const metadata = { title: "اتصل بنا" };
 

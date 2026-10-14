@@ -1,28 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { SESSION_COOKIE, verifySession } from "@/lib/session";
 
-// يجدّد جلسة الدخول ويمنع فتح لوحة الإدارة بدون تسجيل.
+// حماية أولى: لوحة الإدارة لا تُفتح بدون جلسة صالحة. الصلاحيات نفسها تُفحص في كل صفحة وعملية.
 export async function middleware(request: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return NextResponse.next();
-
-  let response = NextResponse.next({ request });
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll: () => request.cookies.getAll(),
-      setAll: (list) => {
-        list.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        list.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
-      },
-    },
-  });
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user && request.nextUrl.pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  return response;
+  if (!process.env.SESSION_SECRET) return NextResponse.redirect(new URL("/login?e=setup", request.url));
+  const userId = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
+  if (!userId) return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.next();
 }
 
-export const config = { matcher: ["/admin/:path*", "/login"] };
+export const config = { matcher: ["/admin/:path*"] };

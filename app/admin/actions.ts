@@ -1,83 +1,86 @@
 "use server";
 
 import { randomUUID } from "node:crypto";
+import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { requireRole } from "@/lib/auth";
+import { requireRole, type Role } from "@/lib/auth";
+import { isAllowedImage, saveImage } from "@/lib/media";
+import { db } from "@/lib/prisma";
 import { publishEverywhere } from "@/lib/social";
 
 const str = (f: FormData, k: string, max = 5000) => String(f.get(k) ?? "").trim().slice(0, max);
 const grades = (f: FormData) => f.getAll("grades").map(Number).filter((g) => [7, 8, 9].includes(g));
+const date = (v: string) => (/^\d{4}-\d{2}-\d{2}$/.test(v) ? new Date(v) : null);
+const today = () => new Date(new Date().toISOString().slice(0, 10));
 const refreshSite = () => revalidatePath("/", "layout");
 
-const MAX_IMAGE = 5 * 1024 * 1024;
+const CATEGORIES = ["تعليم", "احتفالات", "رحلات", "مجتمع"];
+const EVENT_TYPES = ["امتحان", "نشاط", "عطلة", "عام"];
 
 // ========== الأخبار ==========
 
 export async function saveNews(form: FormData) {
-  const { supabase, user } = await requireRole(["admin", "editor"]);
+  const { user } = await requireRole(["admin", "editor"]);
   const id = str(form, "id", 40);
+  const back = `/admin/news/${id || "new"}`;
   const title = str(form, "title", 200);
-  if (!title) redirect(`/admin/news/${id || "new"}?e=title`);
+  if (!title) redirect(`${back}?e=title`);
 
-  const row: Record<string, unknown> = {
+  const data = {
     title,
     excerpt: str(form, "excerpt", 300),
     body: str(form, "body", 20000),
-    category: str(form, "category", 20),
+    category: CATEGORIES.includes(str(form, "category", 20)) ? str(form, "category", 20) : "تعليم",
     grades: grades(form),
-    status: form.get("publish") === "on" ? "published" : "draft",
-    published_at: str(form, "published_at", 10) || new Date().toISOString().slice(0, 10),
-    image_consent: form.get("image_consent") === "on",
-    updated_at: new Date().toISOString(),
-  };
+    status: form.get("publish") === "on" ? ("published" as const) : ("draft" as const),
+    publishedAt: date(str(form, "published_at", 10)) ?? today(),
+    imageConsent: form.get("image_consent") === "on",
+  } as Record<string, unknown>;
 
   const image = form.get("image");
   if (image instanceof File && image.size > 0) {
-    if (!image.type.startsWith("image/") || image.size > MAX_IMAGE) redirect(`/admin/news/${id || "new"}?e=image`);
-    const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
-    const path = `news/${randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("media").upload(path, image, { contentType: image.type });
-    if (error) redirect(`/admin/news/${id || "new"}?e=upload`);
-    row.image_url = supabase.storage.from("media").getPublicUrl(path).data.publicUrl;
+    if (!isAllowedImage(image)) redirect(`${back}?e=image`);
+    data.imageUrl = await saveImage(image);
   }
-  if (form.get("remove_image") === "on") row.image_url = null;
+  if (form.get("remove_image") === "on") data.imageUrl = null;
 
-  let saved: { id: string; slug: string; status: string; image_url: string | null; excerpt: string; title: string; facebook_post_id: string | null; instagram_media_id: string | null };
-  const columns = "id,slug,status,image_url,excerpt,title,facebook_post_id,instagram_media_id";
-  if (id) {
-    const { data, error } = await supabase.from("news").update(row).eq("id", id).select(columns).single();
-    if (error || !data) redirect(`/admin/news/${id}?e=save`);
-    saved = data;
-  } else {
-    const slug = `${row.published_at}-${randomUUID().slice(0, 6)}`;
-    const { data, error } = await supabase.from("news").insert({ ...row, slug, author_id: user.id }).select(columns).single();
-    if (error || !data) redirect("/admin/news/new?e=save");
-    saved = data;
-  }
+  const saved = id
+    ? await db().news.update({ where: { id }, data })
+    : await db().news.create({
+        data: {
+          ...(data as { title: string }),
+          slug: `${(data.publishedAt as Date).toISOString().slice(0, 10)}-${randomUUID().slice(0, 6)}`,
+          authorId: user.id,
+        },
+      });
 
   // النشر على فيسبوك وإنستجرام مرة واحدة فقط لكل خبر منشور
-  const wantFb = form.get("to_facebook") === "on" && !saved.facebook_post_id;
-  const wantIg = form.get("to_instagram") === "on" && !saved.instagram_media_id;
+  const wantFb = form.get("to_facebook") === "on" && !saved.facebookPostId;
+  const wantIg = form.get("to_instagram") === "on" && !saved.instagramMediaId;
   let social = "";
   if (saved.status === "published" && (wantFb || wantIg)) {
     const siteUrl = (process.env.SITE_URL || "").replace(/\/$/, "");
+    const abs = (u: string | null) => (u && u.startsWith("/") ? (siteUrl ? siteUrl + u : undefined) : u ?? undefined);
     const results = await publishEverywhere(
       {
         message: [saved.title, saved.excerpt].filter(Boolean).join("\n\n"),
         link: siteUrl ? `${siteUrl}/news/${saved.slug}` : undefined,
-        imageUrl: saved.image_url ?? undefined,
+        imageUrl: abs(saved.imageUrl),
       },
       { facebook: wantFb, instagram: wantIg },
     );
-    await supabase.from("social_posts").insert(
-      results.map((r) => ({ news_id: saved.id, platform: r.platform, ok: r.ok, external_id: r.id ?? null, error: r.error ?? null })),
-    );
-    const ids: Record<string, string> = {};
-    for (const r of results) {
-      if (r.ok && r.id) ids[r.platform === "facebook" ? "facebook_post_id" : "instagram_media_id"] = r.id;
+    await db().socialPost.createMany({
+      data: results.map((r) => ({ newsId: saved.id, platform: r.platform, ok: r.ok, externalId: r.id ?? null, error: r.error ?? null })),
+    });
+    const fb = results.find((r) => r.platform === "facebook" && r.ok);
+    const ig = results.find((r) => r.platform === "instagram" && r.ok);
+    if (fb || ig) {
+      await db().news.update({
+        where: { id: saved.id },
+        data: { ...(fb ? { facebookPostId: fb.id } : {}), ...(ig ? { instagramMediaId: ig.id } : {}) },
+      });
     }
-    if (Object.keys(ids).length) await supabase.from("news").update(ids).eq("id", saved.id);
     social = "&social=" + results.map((r) => `${r.platform}:${r.ok ? "ok" : "fail"}`).join(",");
   }
 
@@ -86,8 +89,8 @@ export async function saveNews(form: FormData) {
 }
 
 export async function deleteNews(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  await supabase.from("news").delete().eq("id", str(form, "id", 40));
+  await requireRole(["admin", "editor"]);
+  await db().news.deleteMany({ where: { id: str(form, "id", 40) } });
   refreshSite();
   redirect("/admin/news");
 }
@@ -95,16 +98,18 @@ export async function deleteNews(form: FormData) {
 // ========== الإعلانات ==========
 
 export async function saveAnnouncement(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
+  await requireRole(["admin", "editor"]);
   const title = str(form, "title", 200);
   if (title) {
-    await supabase.from("announcements").insert({
-      title,
-      body: str(form, "body", 2000),
-      urgent: form.get("urgent") === "on",
-      grades: grades(form),
-      date: str(form, "date", 10) || new Date().toISOString().slice(0, 10),
-      expires_on: str(form, "expires_on", 10) || null,
+    await db().announcement.create({
+      data: {
+        title,
+        body: str(form, "body", 2000),
+        urgent: form.get("urgent") === "on",
+        grades: grades(form),
+        date: date(str(form, "date", 10)) ?? today(),
+        expiresOn: date(str(form, "expires_on", 10)),
+      },
     });
     refreshSite();
   }
@@ -112,8 +117,8 @@ export async function saveAnnouncement(form: FormData) {
 }
 
 export async function deleteAnnouncement(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  await supabase.from("announcements").delete().eq("id", str(form, "id", 40));
+  await requireRole(["admin", "editor"]);
+  await db().announcement.deleteMany({ where: { id: str(form, "id", 40) } });
   refreshSite();
   redirect("/admin/announcements");
 }
@@ -121,16 +126,13 @@ export async function deleteAnnouncement(form: FormData) {
 // ========== الرزنامة ==========
 
 export async function saveEvent(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
+  await requireRole(["admin", "editor"]);
   const title = str(form, "title", 200);
-  const date = str(form, "date", 10);
-  if (title && date) {
-    await supabase.from("events").insert({
-      title,
-      date,
-      type: str(form, "type", 10),
-      confirmed: form.get("confirmed") === "on",
-      grades: grades(form),
+  const d = date(str(form, "date", 10));
+  const type = str(form, "type", 10);
+  if (title && d && EVENT_TYPES.includes(type)) {
+    await db().event.create({
+      data: { title, date: d, type, confirmed: form.get("confirmed") === "on", grades: grades(form) },
     });
     refreshSite();
   }
@@ -138,8 +140,8 @@ export async function saveEvent(form: FormData) {
 }
 
 export async function deleteEvent(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  await supabase.from("events").delete().eq("id", str(form, "id", 40));
+  await requireRole(["admin", "editor"]);
+  await db().event.deleteMany({ where: { id: str(form, "id", 40) } });
   refreshSite();
   redirect("/admin/events");
 }
@@ -147,45 +149,83 @@ export async function deleteEvent(form: FormData) {
 // ========== مراجعة مشاركات الطلاب ==========
 
 export async function reviewSubmission(form: FormData) {
-  const { supabase, user } = await requireRole(["admin", "editor", "teacher"]);
+  const { user } = await requireRole(["admin", "editor", "teacher"]);
   const status = str(form, "status", 10);
   if (status === "approved" || status === "rejected") {
-    await supabase
-      .from("submissions")
-      .update({ status, reviewed_by: user.id, reviewed_at: new Date().toISOString() })
-      .eq("id", str(form, "id", 40));
+    await db().submission.updateMany({
+      where: { id: str(form, "id", 40) },
+      data: { status, reviewedById: user.id, reviewedAt: new Date() },
+    });
     revalidatePath("/participate", "layout");
   }
-  redirect("/admin/submissions");
+  redirect(`/admin/submissions?s=${str(form, "from", 10) || "pending"}`);
 }
 
 // ========== الرسائل ==========
 
 export async function markMessage(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  await supabase.from("contact_messages").update({ handled: form.get("handled") === "1" }).eq("id", str(form, "id", 40));
+  await requireRole(["admin", "editor"]);
+  await db().contactMessage.updateMany({ where: { id: str(form, "id", 40) }, data: { handled: form.get("handled") === "1" } });
   redirect("/admin/messages");
 }
 
 // ========== التصويت ==========
 
 export async function createPoll(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
+  await requireRole(["admin", "editor"]);
   const question = str(form, "question", 300);
   const options = str(form, "options", 2000).split("\n").map((o) => o.trim()).filter(Boolean).slice(0, 8);
   if (question && options.length >= 2) {
-    const { data: poll } = await supabase.from("polls").insert({ question }).select("id").single();
-    if (poll) {
-      await supabase.from("poll_options").insert(options.map((label, position) => ({ poll_id: poll.id, label, position })));
-    }
+    await db().poll.create({
+      data: { question, options: { create: options.map((label, position) => ({ label, position })) } },
+    });
     revalidatePath("/participate/vote");
   }
   redirect("/admin/polls");
 }
 
 export async function togglePoll(form: FormData) {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  await supabase.from("polls").update({ active: form.get("active") === "1" }).eq("id", str(form, "id", 40));
+  await requireRole(["admin", "editor"]);
+  await db().poll.updateMany({ where: { id: str(form, "id", 40) }, data: { active: form.get("active") === "1" } });
   revalidatePath("/participate/vote");
   redirect("/admin/polls");
+}
+
+// ========== المستخدمون (للمدير فقط) ==========
+
+const ROLES: Role[] = ["admin", "editor", "teacher"];
+const MIN_PASSWORD = 10;
+
+export async function createUser(form: FormData) {
+  await requireRole(["admin"]);
+  const email = str(form, "email", 200).toLowerCase();
+  const password = String(form.get("password") ?? "");
+  const role = str(form, "role", 10) as Role;
+  if (!/^\S+@\S+\.\S+$/.test(email) || !ROLES.includes(role)) redirect("/admin/users?e=input");
+  if (password.length < MIN_PASSWORD) redirect("/admin/users?e=password");
+  if (await db().user.findUnique({ where: { email } })) redirect("/admin/users?e=exists");
+  await db().user.create({
+    data: { email, name: str(form, "name", 100), role, passwordHash: await bcrypt.hash(password, 12) },
+  });
+  redirect("/admin/users?ok=1");
+}
+
+export async function updateUser(form: FormData) {
+  const { user: me } = await requireRole(["admin"]);
+  const id = str(form, "id", 40);
+  const role = str(form, "role", 10) as Role;
+  const active = form.get("active") === "on";
+  const password = String(form.get("password") ?? "");
+  // المدير لا يستطيع إزالة صلاحيته أو إيقاف حسابه بنفسه، حتى لا يبقى الموقع بلا مدير
+  if (id === me.id && (role !== "admin" || !active)) redirect("/admin/users?e=self");
+  if (password && password.length < MIN_PASSWORD) redirect("/admin/users?e=password");
+  await db().user.update({
+    where: { id },
+    data: {
+      ...(ROLES.includes(role) ? { role } : {}),
+      active,
+      ...(password ? { passwordHash: await bcrypt.hash(password, 12) } : {}),
+    },
+  });
+  redirect("/admin/users?ok=1");
 }

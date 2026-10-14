@@ -1,7 +1,7 @@
 import Illustration from "@/components/Illustration";
 import { PageHead } from "@/components/ui";
 import SubmitForm from "@/components/SubmitForm";
-import { isDbConfigured } from "@/lib/supabase/server";
+import { isDbConfigured } from "@/lib/prisma";
 import { getApproved } from "@/lib/submissions";
 
 export const metadata = { title: "نادي القراءة" };

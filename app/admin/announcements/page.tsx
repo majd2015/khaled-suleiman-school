@@ -1,10 +1,11 @@
 import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 import { DateCell, Empty, GradeChecks, GradesLabel } from "@/components/admin";
 import { deleteAnnouncement, saveAnnouncement } from "../actions";
 
 export default async function AdminAnnouncements() {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  const { data: rows } = await supabase.from("announcements").select("*").order("date", { ascending: false }).limit(200);
+  await requireRole(["admin", "editor"]);
+  const rows = await db().announcement.findMany({ orderBy: { date: "desc" }, take: 200 });
   const today = new Date().toISOString().slice(0, 10);
 
   return (
@@ -23,7 +24,7 @@ export default async function AdminAnnouncements() {
         <button className="btn">نشر الإعلان</button>
       </form>
 
-      {!rows?.length ? <Empty>لا توجد إعلانات.</Empty> : (
+      {!rows.length ? <Empty>لا توجد إعلانات.</Empty> : (
         <div className="table-wrap">
           <table className="admin-table">
             <thead><tr><th>العنوان</th><th>التاريخ</th><th>الصفوف</th><th>ينتهي</th><th></th></tr></thead>
@@ -33,7 +34,7 @@ export default async function AdminAnnouncements() {
                   <td>{a.urgent && <span className="badge urgent">عاجل</span>} {a.title}<br /><small>{a.body}</small></td>
                   <td><DateCell iso={a.date} /></td>
                   <td><GradesLabel grades={a.grades} /></td>
-                  <td>{a.expires_on ? <DateCell iso={a.expires_on} /> : "—"}</td>
+                  <td>{a.expiresOn ? <DateCell iso={a.expiresOn} /> : "—"}</td>
                   <td>
                     <form action={deleteAnnouncement}><input type="hidden" name="id" value={a.id} /><button className="btn danger small">حذف</button></form>
                   </td>

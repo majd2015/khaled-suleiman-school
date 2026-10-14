@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 import { DateCell, Empty } from "@/components/admin";
 
 export default async function AdminNews() {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  const { data: rows } = await supabase
-    .from("news")
-    .select("id,title,status,published_at,category,facebook_post_id,instagram_media_id")
-    .order("published_at", { ascending: false })
-    .limit(200);
+  await requireRole(["admin", "editor"]);
+  const rows = await db().news.findMany({ orderBy: { publishedAt: "desc" }, take: 200 });
 
   return (
     <>
@@ -26,10 +23,10 @@ export default async function AdminNews() {
               {rows.map((n) => (
                 <tr key={n.id}>
                   <td><Link href={`/admin/news/${n.id}`}>{n.title}</Link></td>
-                  <td><DateCell iso={n.published_at} /></td>
+                  <td><DateCell iso={n.publishedAt} /></td>
                   <td>{n.category}</td>
                   <td>{n.status === "published" ? "منشور" : "مسودة"}</td>
-                  <td>{[n.facebook_post_id && "فيسبوك ✓", n.instagram_media_id && "إنستجرام ✓"].filter(Boolean).join(" · ") || "—"}</td>
+                  <td>{[n.facebookPostId && "فيسبوك ✓", n.instagramMediaId && "إنستجرام ✓"].filter(Boolean).join(" · ") || "—"}</td>
                 </tr>
               ))}
             </tbody>

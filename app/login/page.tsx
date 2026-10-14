@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 export const metadata = { title: "دخول الإدارة", robots: { index: false } };
 
 const notes: Record<string, string> = {
-  setup: "لوحة الإدارة تحتاج ربط قاعدة البيانات أولًا (انظر README).",
+  setup: "لوحة الإدارة غير مفعّلة بعد: تحتاج DATABASE_URL و SESSION_SECRET على السيرفر (انظر DEPLOYMENT.md).",
   forbidden: "حسابك لا يملك صلاحية لهذه الصفحة. اطلب من مدير الموقع إضافتك.",
 };
 

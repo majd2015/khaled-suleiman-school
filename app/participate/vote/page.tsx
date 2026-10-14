@@ -2,7 +2,8 @@ import { cookies } from "next/headers";
 import Illustration from "@/components/Illustration";
 import { PageHead } from "@/components/ui";
 import Poll, { type PollResult } from "@/components/Poll";
-import { isDbConfigured, supabasePublic } from "@/lib/supabase/server";
+import { isDbConfigured } from "@/lib/prisma";
+import { getPollsWithResults } from "@/lib/submissions";
 
 export const metadata = { title: "التصويت" };
 export const dynamic = "force-dynamic";
@@ -10,16 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function Vote() {
   const jar = await cookies();
   let polls: { id: string; question: string; results: PollResult[] }[] = [];
-  if (isDbConfigured()) {
-    const supabase = supabasePublic();
-    const { data } = await supabase.from("polls").select("id,question").eq("active", true).order("created_at", { ascending: false });
-    polls = await Promise.all(
-      (data ?? []).map(async (p) => {
-        const { data: results } = await supabase.rpc("poll_results", { p_poll: p.id });
-        return { ...p, results: (results ?? []) as PollResult[] };
-      }),
-    );
-  }
+  if (isDbConfigured()) polls = await getPollsWithResults(true);
 
   return (
     <>

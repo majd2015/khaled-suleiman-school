@@ -1,0 +1,36 @@
+# للتجربة المحلية أو لسيرفر بدون Coolify. على Coolify يكفي الـ Dockerfile وقاعدة Postgres من Coolify.
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: school
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-school}
+      POSTGRES_DB: school
+    volumes:
+      - db-data:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U school"]
+      interval: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://school:${POSTGRES_PASSWORD:-school}@db:5432/school?schema=public
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "127.0.0.1:3200:3200"
+
+volumes:
+  db-data:
+  uploads:

@@ -13,6 +13,7 @@ const links = [
   { href: "/admin/submissions", label: "مشاركات الطلاب", roles: ["admin", "editor", "teacher"] },
   { href: "/admin/messages", label: "الرسائل", roles: ["admin", "editor"] },
   { href: "/admin/polls", label: "التصويت", roles: ["admin", "editor"] },
+  { href: "/admin/users", label: "المستخدمون", roles: ["admin"] },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="admin-bar">
         <div className="container">
           <nav className="filters" style={{ margin: 0 }}>
-            {links.filter((l) => l.roles.includes(role)).map((l) => (
+            {links.filter((l) => (l.roles as string[]).includes(role)).map((l) => (
               <Link key={l.href} href={l.href}>{l.label}</Link>
             ))}
           </nav>

@@ -1,18 +1,11 @@
 import { requireRole } from "@/lib/auth";
+import { getPollsWithResults } from "@/lib/submissions";
 import { Empty } from "@/components/admin";
 import { createPoll, togglePoll } from "../actions";
 
-type Result = { option_id: string; label: string; votes: number };
-
 export default async function AdminPolls() {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  const { data: polls } = await supabase.from("polls").select("*").order("created_at", { ascending: false }).limit(50);
-  const withResults = await Promise.all(
-    (polls ?? []).map(async (p) => {
-      const { data } = await supabase.rpc("poll_results", { p_poll: p.id });
-      return { id: p.id as string, question: p.question as string, active: p.active as boolean, results: (data ?? []) as Result[] };
-    }),
-  );
+  await requireRole(["admin", "editor"]);
+  const withResults = await getPollsWithResults(false);
 
   return (
     <>

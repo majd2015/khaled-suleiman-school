@@ -1,19 +1,15 @@
 import Link from "next/link";
 import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 
 export default async function AdminHome() {
-  const { supabase, role } = await requireRole(["admin", "editor", "teacher"]);
-  const count = async (table: string, filter?: [string, string | boolean]) => {
-    let q = supabase.from(table).select("*", { count: "exact", head: true });
-    if (filter) q = q.eq(filter[0], filter[1]);
-    return (await q).count ?? 0;
-  };
+  const { role } = await requireRole(["admin", "editor", "teacher"]);
   const isEditor = role !== "teacher";
   const [pending, messages, drafts, published] = await Promise.all([
-    count("submissions", ["status", "pending"]),
-    isEditor ? count("contact_messages", ["handled", false]) : 0,
-    isEditor ? count("news", ["status", "draft"]) : 0,
-    isEditor ? count("news", ["status", "published"]) : 0,
+    db().submission.count({ where: { status: "pending" } }),
+    isEditor ? db().contactMessage.count({ where: { handled: false } }) : 0,
+    isEditor ? db().news.count({ where: { status: "draft" } }) : 0,
+    isEditor ? db().news.count({ where: { status: "published" } }) : 0,
   ]);
 
   const cards = [

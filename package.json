@@ -5,16 +5,27 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p ${PORT:-3200}",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx scripts/seed.ts",
+    "postinstall": "prisma generate || true"
   },
   "dependencies": {
-    "@supabase/ssr": "0.7.0",
-    "@supabase/supabase-js": "2.57.4",
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "bcryptjs": "3.0.2",
+    "dotenv": "16.6.1",
+    "jose": "6.1.0",
     "lucide-react": "0.544.0",
     "next": "15.5.27",
+    "pg": "8.16.3",
+    "prisma": "7.10.0",
     "react": "19.1.1",
-    "react-dom": "19.1.1"
+    "react-dom": "19.1.1",
+    "tsx": "4.20.5"
   },
   "devDependencies": {
     "@types/node": "22.15.0",

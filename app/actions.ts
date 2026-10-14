@@ -3,7 +3,8 @@
 import { createHash } from "node:crypto";
 import { cookies, headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { isDbConfigured, supabasePublic } from "@/lib/supabase/server";
+import { db, isDbConfigured } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 export type FormState = { ok: boolean; message: string } | null;
 
@@ -31,13 +32,13 @@ export async function submitSubmission(_: FormState, form: FormData): Promise<Fo
   const showName = form.get("showName") === "on";
   const authorName = clean(form.get("authorName"), 80);
 
-  const { error } = await supabasePublic().from("submissions").insert({
-    kind,
-    content,
-    show_name: showName && authorName !== "",
-    author_name: authorName || null,
-  });
-  if (error) return { ok: false, message: "تعذّر الإرسال، حاول مرة أخرى." };
+  try {
+    await db().submission.create({
+      data: { kind, content, showName: showName && authorName !== "", authorName: authorName || null },
+    });
+  } catch {
+    return { ok: false, message: "تعذّر الإرسال، حاول مرة أخرى." };
+  }
   return { ok: true, message: "شكرًا! وصلت مشاركتك وسيراجعها معلّم قبل نشرها." };
 }
 
@@ -47,10 +48,11 @@ export async function sendContact(_: FormState, form: FormData): Promise<FormSta
   const name = clean(form.get("name"), 100);
   const message = clean(form.get("message"), 3000);
   if (!name || !message) return { ok: false, message: "الرجاء كتابة الاسم والرسالة." };
-  const { error } = await supabasePublic()
-    .from("contact_messages")
-    .insert({ name, message, phone: clean(form.get("phone"), 30) || null });
-  if (error) return { ok: false, message: "تعذّر الإرسال، حاول مرة أخرى." };
+  try {
+    await db().contactMessage.create({ data: { name, message, phone: clean(form.get("phone"), 30) || null } });
+  } catch {
+    return { ok: false, message: "تعذّر الإرسال، حاول مرة أخرى." };
+  }
   return { ok: true, message: "شكرًا، وصلت رسالتك وسنعود إليك." };
 }
 
@@ -67,12 +69,18 @@ export async function castVote(_: FormState, form: FormData): Promise<FormState>
     .update(`${pollId}|${ip}|${h.get("user-agent") ?? ""}|${process.env.VOTE_SALT ?? "school"}`)
     .digest("hex");
 
-  const { error } = await supabasePublic()
-    .from("poll_votes")
-    .insert({ poll_id: pollId, option_id: optionId, voter_hash: voterHash });
+  // التصويت فقط على استطلاع مفتوح وبخيار تابع له
+  const option = await db().pollOption.findFirst({ where: { id: optionId, pollId, poll: { active: true } } });
+  if (!option) return { ok: false, message: "هذا التصويت مغلق." };
+
+  let message = "شكرًا، سُجّل صوتك.";
+  try {
+    await db().pollVote.create({ data: { pollId, optionId, voterHash } });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") message = "سبق أن صوّتّ في هذا الاستطلاع.";
+    else return { ok: false, message: "تعذّر تسجيل الصوت." };
+  }
   (await cookies()).set(`voted-${pollId}`, "1", { maxAge: 60 * 60 * 24 * 365, httpOnly: true, sameSite: "lax" });
   revalidatePath("/participate/vote");
-  if (error?.code === "23505") return { ok: true, message: "سبق أن صوّتّ في هذا الاستطلاع." };
-  if (error) return { ok: false, message: "تعذّر تسجيل الصوت." };
-  return { ok: true, message: "شكرًا، سُجّل صوتك." };
+  return { ok: true, message };
 }

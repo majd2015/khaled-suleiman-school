@@ -1,12 +1,13 @@
 import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 import { DateCell, Empty, GradeChecks, GradesLabel } from "@/components/admin";
 import { deleteEvent, saveEvent } from "../actions";
 
 const types = ["امتحان", "نشاط", "عطلة", "عام"];
 
 export default async function AdminEvents() {
-  const { supabase } = await requireRole(["admin", "editor"]);
-  const { data: rows } = await supabase.from("events").select("*").order("date").limit(500);
+  await requireRole(["admin", "editor"]);
+  const rows = await db().event.findMany({ orderBy: { date: "asc" }, take: 500 });
 
   return (
     <>
@@ -23,7 +24,7 @@ export default async function AdminEvents() {
         <button className="btn">إضافة</button>
       </form>
 
-      {!rows?.length ? <Empty>لا توجد مواعيد.</Empty> : (
+      {!rows.length ? <Empty>لا توجد مواعيد.</Empty> : (
         <div className="table-wrap">
           <table className="admin-table">
             <thead><tr><th>التاريخ</th><th>الموعد</th><th>النوع</th><th>الصفوف</th><th>الحالة</th><th></th></tr></thead>
