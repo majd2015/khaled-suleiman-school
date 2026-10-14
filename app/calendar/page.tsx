@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { events, type EventType } from "@/content/data";
+import type { EventType } from "@/content/data";
+import { getEvents } from "@/lib/news";
 import { PageHead, formatDate } from "@/components/ui";
 
 export const metadata = { title: "الرزنامة" };
@@ -8,7 +9,7 @@ const types: EventType[] = ["امتحان", "نشاط", "عطلة", "عام"];
 
 export default async function Calendar({ searchParams }: { searchParams: Promise<{ type?: string; grade?: string }> }) {
   const { type, grade } = await searchParams;
-  const list = [...events]
+  const list = (await getEvents())
     .filter((e) => !type || e.type === type)
     .filter((e) => !grade || !e.grades || e.grades.includes(Number(grade)))
     .sort((a, b) => a.date.localeCompare(b.date));

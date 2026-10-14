@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { site } from "@/site.config";
-import { announcements, challenges, didYouKnow, events, grades } from "@/content/data";
+import { challenges, didYouKnow, grades } from "@/content/data";
 import Illustration from "@/components/Illustration";
 import { gradeIllustration } from "@/content/assets";
-import { getAllNews } from "@/lib/news";
+import { getAllNews, getAnnouncements, getEvents } from "@/lib/news";
 import { IconBadge } from "@/components/icons";
 import { AnnouncementCard, NewsCard, Pending, formatDate } from "@/components/ui";
 
-export const revalidate = 900;
+export const revalidate = 60;
 
 export default async function Home() {
-  const latest = (await getAllNews()).slice(0, 3);
-  const upcoming = [...events].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
+  const [allNews, announcements, events] = await Promise.all([getAllNews(), getAnnouncements(), getEvents()]);
+  const latest = allNews.slice(0, 3);
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const upcoming = events.filter((e) => e.date >= todayIso).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
   const today = challenges[new Date().getDate() % challenges.length];
   const fact = didYouKnow[new Date().getDate() % didYouKnow.length];
 

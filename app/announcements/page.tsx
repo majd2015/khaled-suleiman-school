@@ -1,9 +1,12 @@
-import { announcements } from "@/content/data";
+import { getAnnouncements } from "@/lib/news";
 import { AnnouncementCard, PageHead } from "@/components/ui";
 
 export const metadata = { title: "الإعلانات" };
 
-export default function Announcements() {
+export const revalidate = 60;
+
+export default async function Announcements() {
+  const announcements = await getAnnouncements();
   const sorted = [...announcements].sort((a, b) => Number(!!b.urgent) - Number(!!a.urgent) || b.date.localeCompare(a.date));
   return (
     <>

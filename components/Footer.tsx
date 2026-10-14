@@ -27,6 +27,7 @@ export default function Footer() {
               <li><Link href="/announcements">الإعلانات</Link></li>
               <li><Link href="/calendar">الرزنامة</Link></li>
               <li><Link href="/privacy">الخصوصية</Link></li>
+              <li><Link href="/login">دخول الإدارة</Link></li>
             </ul>
           </div>
           <div>

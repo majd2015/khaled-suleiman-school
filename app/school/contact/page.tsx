@@ -1,6 +1,8 @@
 import { site } from "@/site.config";
 import { PageHead } from "@/components/ui";
 import { Icon } from "@/components/icons";
+import ContactForm from "@/components/ContactForm";
+import { isDbConfigured } from "@/lib/supabase/server";
 
 export const metadata = { title: "اتصل بنا" };
 
@@ -20,13 +22,7 @@ export default function Contact() {
             <p className="inline-icon"><Icon name="clock" size={20} />ساعات الدوام: {c.hours}</p>
             {c.mapUrl && <a href={c.mapUrl}>الموقع على الخريطة</a>}
           </div>
-          <form className="card stack" action="mailto:" method="post">
-            <h3>أرسل رسالة</h3>
-            <label>الاسم<input name="name" required /></label>
-            <label>رقم الهاتف<input name="phone" /></label>
-            <label>الرسالة<textarea name="message" rows={4} required /></label>
-            <button className="btn" type="submit">إرسال</button>
-          </form>
+          <ContactForm enabled={isDbConfigured()} />
         </div>
       </section>
     </>

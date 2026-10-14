@@ -1,22 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useActionState } from "react";
+import { castVote, type FormState } from "@/app/actions";
 
-// تصويت تجريبي يُحفظ على الجهاز. تجميع الأصوات من الجميع يُربط بقاعدة البيانات لاحقًا.
-export default function Poll({ id, question, options }: { id: string; question: string; options: string[] }) {
-  const key = `poll:${id}`;
-  const [choice, setChoice] = useState<string | null>(null);
-  useEffect(() => { try { setChoice(localStorage.getItem(key)); } catch {} }, [key]);
-  const vote = (o: string) => { setChoice(o); try { localStorage.setItem(key, o); } catch {} };
+export type PollResult = { option_id: string; label: string; votes: number };
+
+export default function Poll({
+  id,
+  question,
+  results,
+  voted,
+}: {
+  id: string;
+  question: string;
+  results: PollResult[];
+  voted: boolean;
+}) {
+  const [state, action, pending] = useActionState<FormState, FormData>(castVote, null);
+  const showResults = voted || state?.ok;
+  const total = results.reduce((s, r) => s + Number(r.votes), 0) || 1;
+
   return (
     <div className="card">
       <h3>{question}</h3>
-      <div style={{ display: "grid", gap: 8, marginTop: 12 }}>
-        {options.map((o) => (
-          <button key={o} className={choice === o ? "btn" : "btn ghost"} onClick={() => vote(o)} disabled={!!choice}>{o}</button>
-        ))}
-      </div>
-      {choice && <p style={{ marginTop: 12 }}>شكرًا، سُجّل صوتك: {choice}</p>}
+      {showResults ? (
+        <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
+          {state?.message && <p>{state.message}</p>}
+          {results.map((r) => {
+            const pct = Math.round((Number(r.votes) / total) * 100);
+            return (
+              <div key={r.option_id}>
+                <div className="meta"><strong style={{ color: "var(--text)" }}>{r.label}</strong><span>{pct}%</span></div>
+                <div className="bar"><span style={{ width: `${pct}%` }} /></div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <form action={action} style={{ display: "grid", gap: 8, marginTop: 12 }}>
+          <input type="hidden" name="poll" value={id} />
+          {results.map((r) => (
+            <button key={r.option_id} className="btn ghost" name="option" value={r.option_id} disabled={pending}>{r.label}</button>
+          ))}
+          {state && !state.ok && <p className="badge urgent">{state.message}</p>}
+        </form>
+      )}
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import { events } from "@/content/data";
+import { getEvents } from "@/lib/news";
 import { site } from "@/site.config";
 
-export const dynamic = "force-static";
+export const revalidate = 300;
 
-export function GET() {
+export async function GET() {
+  const events = await getEvents();
   const d = (iso: string) => iso.replaceAll("-", "");
   const lines = [
     "BEGIN:VCALENDAR",

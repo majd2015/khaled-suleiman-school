@@ -1,14 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { news } from "@/content/data";
 import { getNewsItem } from "@/lib/news";
 import { PageHead, formatDate } from "@/components/ui";
 
-export const dynamicParams = true;
-
-export function generateStaticParams() {
-  return news.map((n) => ({ slug: n.slug }));
-}
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
