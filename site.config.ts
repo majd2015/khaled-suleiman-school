@@ -48,6 +48,7 @@ export const nav = [
     ],
   },
   { href: "/news", label: "الأخبار" },
+  { href: "/articles", label: "المجلة" },
   { href: "/announcements", label: "الإعلانات" },
   { href: "/calendar", label: "الرزنامة" },
   {
