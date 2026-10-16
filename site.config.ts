@@ -14,7 +14,7 @@ export const site = {
     phone: PENDING,
     fax: PENDING,
     email: PENDING,
-    hours: "الأحد حتى الخميس، 08:00 حتى 14:00 (مؤقت)",
+    hours: PENDING,
     mapUrl: "",
   },
   social: {

@@ -1,0 +1,132 @@
+.lab-subjects {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 44px;
+  align-items: center;
+}
+.lab-stage-panel {
+  position: relative;
+  min-width: 0;
+  border-radius: 28px;
+  border: 1px solid #fff;
+  background:
+    radial-gradient(at 20% 20%, #d8eaff90, transparent 50%),
+    radial-gradient(at 70% 80%, #e0d4ff75, transparent 65%), #f7fbff;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  text-align: center;
+}
+.lab-poster img {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+.lab-poster p {
+  font-size: 12px;
+  margin: 15px 0 0;
+}
+.lab-copy h2 {
+  font-size: 38px;
+}
+.lab-copy > p {
+  font-size: 17px;
+  line-height: 1.9;
+}
+.lab-copy .card {
+  margin-top: 28px;
+  padding: 23px;
+}
+.lab-copy .card h3 {
+  font-size: 21px;
+}
+.lab-copy .card p {
+  font-size: 16px;
+}
+.lab-copy > .field-note {
+  font-size: 12px;
+  margin: 22px 0 0;
+}
+.lab-load-status {
+  font-size: 13px;
+}
+.lab-load-status:empty {
+  display: none;
+}
+.ks-model-stage {
+  position: relative;
+  height: 360px;
+}
+.ks-model-stage canvas,
+.ks-model-fallback {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  object-fit: contain;
+}
+.ks-model-stage canvas {
+  touch-action: pan-y;
+  cursor: grab;
+}
+.ks-model-stage canvas:active {
+  cursor: grabbing;
+}
+.ks-model-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.ks-model-controls button {
+  background: #ffffffd9;
+  border: 1px solid #ccdaf0;
+  box-shadow: 0 3px 0 #d9e5f480;
+  border-radius: 12px;
+  padding: 9px 12px;
+  min-height: 44px;
+  color: #365681;
+  font-size: 12px;
+}
+.ks-model-controls button[aria-pressed="true"] {
+  background: #e7eeff;
+  color: #2b56b1;
+}
+.ks-model-status {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 16px 0 0;
+}
+.ks-model-fallback[hidden] {
+  display: none;
+}
+@media (max-width: 800px) {
+  .lab-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .lab-copy h2 {
+    font-size: 30px;
+  }
+  .lab-stage-panel {
+    padding: 18px;
+  }
+  .lab-subjects {
+    gap: 8px;
+  }
+  .lab-subjects button {
+    font-size: 13px;
+    padding-inline: 12px;
+  }
+  .ks-model-stage {
+    height: 300px;
+  }
+}

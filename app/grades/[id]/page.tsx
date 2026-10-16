@@ -40,6 +40,7 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
           </div>
 
           <h2>الشُّعب</h2>
+          <p className="demo-notice">أسماء الشُّعب والمربين والمواعيد أدناه نماذج تجريبية، وتنتظر بيانات المدرسة المعتمدة.</p>
           <div className="grid">
             {grade.sections.map((s) => (
               <div key={s.name} className="card grade-card" style={{ ["--gc" as string]: grade.color }}>
@@ -55,17 +56,18 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
           </ul>
 
           <h2 style={{ marginTop: 32 }}>مواعيد الصف</h2>
-          <table className="cal-table">
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="مواعيد الصف"><table className="cal-table">
             <tbody>
               {forGrade(events).map((e) => (
                 <tr key={e.id}>
                   <td>{formatDate(e.date)}</td>
                   <td>{e.title}</td>
                   <td className={`type-${e.type}`}>{e.type}</td>
+                  <td>{e.sample ? "تجريبي" : e.confirmed ? "مؤكد" : "مقترح"}</td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
 
           <h2 style={{ marginTop: 32 }}>تحديات الصف</h2>
           <div className="grid">
