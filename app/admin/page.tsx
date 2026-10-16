@@ -10,7 +10,7 @@ export default function Admin() {
       <PageHead title="لوحة النشر" subtitle="نشر الأخبار على فيسبوك وإنستجرام المدرسة" />
       <section className="section">
         <div className="container prose">
-          <PublishPanel items={news.map((n) => ({ slug: n.slug, title: n.title }))} />
+          {news.some(n => !n.sample) ? <PublishPanel items={news.filter(n => !n.sample).map((n) => ({ slug: n.slug, title: n.title }))} /> : <p className="card">الأخبار الموجودة تجريبية. أضف خبرًا معتمدًا واربط حسابات المدرسة قبل استخدام النشر.</p>}
         </div>
       </section>
     </>

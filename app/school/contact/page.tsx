@@ -1,4 +1,4 @@
-import { site } from "@/site.config";
+import { site, PENDING } from "@/site.config";
 import { PageHead } from "@/components/ui";
 import { Icon } from "@/components/icons";
 
@@ -20,13 +20,10 @@ export default function Contact() {
             <p className="inline-icon"><Icon name="clock" size={20} />ساعات الدوام: {c.hours}</p>
             {c.mapUrl && <a href={c.mapUrl}>الموقع على الخريطة</a>}
           </div>
-          <form className="card stack" action="mailto:" method="post">
-            <h3>أرسل رسالة</h3>
-            <label>الاسم<input name="name" required /></label>
-            <label>رقم الهاتف<input name="phone" /></label>
-            <label>الرسالة<textarea name="message" rows={4} required /></label>
-            <button className="btn" type="submit">إرسال</button>
-          </form>
+          <div className="card">
+            <h3>يسعدنا أن نسمع منك</h3>
+            {c.email !== PENDING ? <a className="btn" href={`mailto:${c.email}`}>راسل المدرسة بالبريد</a> : <p>سنضيف قناة المراسلة بعد اعتماد بريد المدرسة. نموذج إرسال الرسائل غير مفعّل حاليًا.</p>}
+          </div>
         </div>
       </section>
     </>
