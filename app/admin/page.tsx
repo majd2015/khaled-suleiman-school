@@ -1,18 +1,38 @@
-import { news } from "@/content/data";
-import { PageHead } from "@/components/ui";
-import PublishPanel from "@/components/PublishPanel";
+import Link from "next/link";
+import { requireRole } from "@/lib/auth";
+import { db } from "@/lib/prisma";
 
-export const metadata = { title: "لوحة النشر", robots: { index: false } };
+export default async function AdminHome() {
+  const { role } = await requireRole(["admin", "editor", "teacher"]);
+  const isEditor = role !== "teacher";
+  const [pending, messages, drafts, published] = await Promise.all([
+    db().submission.count({ where: { status: "pending" } }),
+    isEditor ? db().contactMessage.count({ where: { handled: false } }) : 0,
+    isEditor ? db().news.count({ where: { status: "draft" } }) : 0,
+    isEditor ? db().news.count({ where: { status: "published" } }) : 0,
+  ]);
 
-export default function Admin() {
+  const cards = [
+    { href: "/admin/submissions", label: "مشاركات بانتظار المراجعة", value: pending, show: true },
+    { href: "/admin/messages", label: "رسائل جديدة", value: messages, show: isEditor },
+    { href: "/admin/news", label: "أخبار منشورة", value: published, show: isEditor },
+    { href: "/admin/news", label: "مسودات", value: drafts, show: isEditor },
+  ];
+
   return (
     <>
-      <PageHead title="لوحة النشر" subtitle="نشر الأخبار على فيسبوك وإنستجرام المدرسة" />
-      <section className="section">
-        <div className="container prose">
-          {news.some(n => !n.sample) ? <PublishPanel items={news.filter(n => !n.sample).map((n) => ({ slug: n.slug, title: n.title }))} /> : <p className="card">الأخبار الموجودة تجريبية. أضف خبرًا معتمدًا واربط حسابات المدرسة قبل استخدام النشر.</p>}
-        </div>
-      </section>
+      <div className="section-title">
+        <h2>لوحة الإدارة</h2>
+        {isEditor && <Link href="/admin/news/new" className="btn">+ خبر جديد</Link>}
+      </div>
+      <div className="grid">
+        {cards.filter((c) => c.show).map((c) => (
+          <Link key={c.label} href={c.href} className="card link" style={{ color: "inherit" }}>
+            <div className="stat">{c.value}</div>
+            <p>{c.label}</p>
+          </Link>
+        ))}
+      </div>
     </>
   );
 }

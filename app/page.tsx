@@ -13,7 +13,8 @@ import {
   Megaphone,
 } from "lucide-react";
 import Illustration from "@/components/Illustration";
-import { grades, challenges, announcements, events } from "@/content/data";
+import { grades, challenges } from "@/content/data";
+import { getAnnouncements, getEvents } from "@/lib/news";
 import { gradeIllustration } from "@/content/assets";
 import { articles } from "@/lib/articles";
 import ArticleCard from "@/components/articles/ArticleCard";
@@ -49,7 +50,13 @@ const subjects = [
     id: "electronics",
   },
 ];
-export default function Home() {
+// الإعلانات والمواعيد من قاعدة البيانات عند ربطها، وإلا من المحتوى التجريبي.
+export const revalidate = 60;
+
+export default async function Home() {
+  const [announcements, allEvents] = await Promise.all([getAnnouncements(), getEvents()]);
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const events = allEvents.filter((e) => e.sample || e.date >= todayIso);
   const picks = ["curve-ball", "joke-line", "mercy-to-animals"].map((slug) =>
     articles.find((a) => a.slug === slug)!,
   );

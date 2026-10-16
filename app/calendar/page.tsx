@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { events, type EventType } from "@/content/data";
+import type { EventType } from "@/content/data";
+import { getEvents } from "@/lib/news";
+import { isDbConfigured } from "@/lib/prisma";
 import { PageHead, formatDate } from "@/components/ui";
 
 export const metadata = { title: "الرزنامة" };
@@ -14,7 +16,7 @@ export default async function Calendar({ searchParams }: { searchParams: Promise
     if (newGrade) p.set("grade", newGrade);
     return "/calendar" + (p.size ? "?" + p : "");
   };
-  const list = [...events]
+  const list = (await getEvents())
     .filter((e) => !type || e.type === type)
     .filter((e) => !grade || !e.grades || e.grades.includes(Number(grade)))
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -24,7 +26,7 @@ export default async function Calendar({ searchParams }: { searchParams: Promise
       <PageHead title="الرزنامة" subtitle="امتحانات ونشاطات وعطل السنة الدراسية" />
       <section className="section">
         <div className="container">
-          <p className="demo-notice">المواعيد المعروضة تجريبية وغير معتمدة. تصدير التقويم يشمل المواعيد الحقيقية المؤكدة فقط؛ لا توجد مواعيد معتمدة بعد.</p>
+          {!isDbConfigured() && <p className="demo-notice">المواعيد المعروضة تجريبية وغير معتمدة. تصدير التقويم يشمل المواعيد الحقيقية المؤكدة فقط؛ لا توجد مواعيد معتمدة بعد.</p>}
           <nav className="filters">
             <Link href="/calendar" className={!type && !grade ? "active" : ""}>الكل</Link>
             {types.map((t) => (

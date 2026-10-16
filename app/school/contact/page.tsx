@@ -1,6 +1,8 @@
 import { site, PENDING } from "@/site.config";
 import { PageHead } from "@/components/ui";
 import { Icon } from "@/components/icons";
+import ContactForm from "@/components/ContactForm";
+import { isDbConfigured } from "@/lib/prisma";
 
 export const metadata = { title: "اتصل بنا" };
 
@@ -20,10 +22,14 @@ export default function Contact() {
             <p className="inline-icon"><Icon name="clock" size={20} />ساعات الدوام: {c.hours}</p>
             {c.mapUrl && <a href={c.mapUrl}>الموقع على الخريطة</a>}
           </div>
+          {isDbConfigured() ? (
+            <ContactForm enabled />
+          ) : (
           <div className="card">
             <h3>يسعدنا أن نسمع منك</h3>
             {c.email !== PENDING ? <a className="btn" href={`mailto:${c.email}`}>راسل المدرسة بالبريد</a> : <p>سنضيف قناة المراسلة بعد اعتماد بريد المدرسة. نموذج إرسال الرسائل غير مفعّل حاليًا.</p>}
           </div>
+          )}
         </div>
       </section>
     </>

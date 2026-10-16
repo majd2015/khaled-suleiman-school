@@ -60,6 +60,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {site.name}
           </span>
           <Link href="/privacy">الخصوصية</Link>
+          <Link href="/login">دخول الإدارة</Link>
           <span>نتعلّم • نشارك • ننطلق</span>
         </div>
       </div>

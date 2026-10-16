@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { announcements, challenges, events, grades, news } from "@/content/data";
+import { challenges, grades } from "@/content/data";
+import { getAllNews, getAnnouncements, getEvents } from "@/lib/news";
 import Illustration from "@/components/Illustration";
 import { gradeIllustration } from "@/content/assets";
 import { AnnouncementCard, NewsCard, PageHead, formatDate } from "@/components/ui";
+
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return grades.map((g) => ({ id: String(g.id) }));
@@ -18,6 +21,7 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
   const { id } = await params;
   const grade = grades.find((g) => String(g.id) === id);
   if (!grade) notFound();
+  const [news, announcements, events] = await Promise.all([getAllNews(), getAnnouncements(), getEvents()]);
   const forGrade = <T extends { grades?: number[] }>(list: T[]) =>
     list.filter((x) => !x.grades || x.grades.includes(grade.id));
 
