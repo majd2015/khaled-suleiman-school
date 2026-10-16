@@ -1,10 +1,13 @@
 // هوية المدرسة. كل قيمة فيها "PENDING" بانتظار بيانات المديرة.
 export const PENDING = "بانتظار بيانات المدرسة";
 
+// عنوان الموقع النهائي يُضبط من متغير البيئة SITE_URL عند النشر (مثل https://example.org).
+// بدونه لا تُولَّد روابط مطلقة، ويُطلب من محركات البحث عدم الأرشفة حتى لا تُفهرس نسخة تجريبية.
+export const siteUrl = (process.env.SITE_URL || "").replace(/\/$/, "") || null;
+
 export const site = {
   name: "مدرسة خالد سليمان الإعدادية",
   shortName: "خالد سليمان",
-  domainName: "PENDING", // اسم الموقع الذي ستختاره المديرة
   tagline: "نتعلّم • نشارك • ننطلق",
   yearTheme: { year: "2026/2027", title: "موضوع السنة", text: PENDING },
   grades: "الصفوف السابع حتى التاسع",

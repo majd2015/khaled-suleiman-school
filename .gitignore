@@ -7,3 +7,6 @@ out
 .env
 *.tsbuildinfo
 next-env.d.ts
+.next-polish
+.next-siteurl
+generated/

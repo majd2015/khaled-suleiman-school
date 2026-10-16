@@ -92,6 +92,21 @@ summary:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 4px;
 }
+/* Larger tap area for small text links, without changing their look. */
+.top-links a,
+.hero-bottom a,
+.footer .copy a,
+a.badge {
+  position: relative;
+}
+.top-links a::after,
+.hero-bottom a::after,
+.footer .copy a::after,
+a.badge::after {
+  content: "";
+  position: absolute;
+  inset: -8px -6px;
+}
 button svg,
 a svg {
   flex: none;
@@ -1089,6 +1104,23 @@ input[type="radio"] {
   background: #edf5ff;
   border-radius: 12px;
   padding: 14px;
+}
+.form-status.error {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.field-error {
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+}
+.char-count {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+[aria-invalid="true"] {
+  border-color: var(--danger);
 }
 .footer {
   margin-top: 40px;
