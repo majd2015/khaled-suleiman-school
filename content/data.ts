@@ -3,6 +3,7 @@
 export type NewsCategory = "احتفالات" | "رحلات" | "مجتمع" | "تعليم";
 
 export type NewsItem = {
+  sample?: boolean;
   slug: string;
   title: string;
   date: string; // YYYY-MM-DD
@@ -18,6 +19,7 @@ export type NewsItem = {
 export const news: NewsItem[] = [
   {
     slug: "opening-2026",
+    sample: true,
     title: "افتتاح السنة الدراسية 2026/2027",
     date: "2026-09-01",
     category: "احتفالات",
@@ -30,6 +32,7 @@ export const news: NewsItem[] = [
   },
   {
     slug: "science-trip",
+    sample: true,
     title: "رحلة علمية للصف الثامن",
     date: "2026-09-18",
     category: "رحلات",
@@ -39,6 +42,7 @@ export const news: NewsItem[] = [
   },
   {
     slug: "community-day",
+    sample: true,
     title: "يوم التطوع في البلدة",
     date: "2026-10-02",
     category: "مجتمع",
@@ -48,6 +52,7 @@ export const news: NewsItem[] = [
   },
   {
     slug: "reading-week",
+    sample: true,
     title: "أسبوع القراءة",
     date: "2026-10-09",
     category: "تعليم",
@@ -57,6 +62,7 @@ export const news: NewsItem[] = [
 ];
 
 export type Announcement = {
+  sample?: boolean;
   id: string;
   title: string;
   date: string;
@@ -68,6 +74,7 @@ export type Announcement = {
 export const announcements: Announcement[] = [
   {
     id: "a1",
+    sample: true,
     title: "اجتماع أولياء الأمور",
     date: "2026-10-20",
     text: "يُعقد اجتماع أولياء أمور الصف السابع الساعة 17:00 في قاعة المدرسة (إعلان تجريبي).",
@@ -75,6 +82,7 @@ export const announcements: Announcement[] = [
   },
   {
     id: "a2",
+    sample: true,
     title: "تغيير موعد امتحان الرياضيات",
     date: "2026-10-16",
     text: "تأجّل امتحان الرياضيات للصف التاسع إلى يوم الأحد (إعلان تجريبي).",
@@ -83,6 +91,7 @@ export const announcements: Announcement[] = [
   },
   {
     id: "a3",
+    sample: true,
     title: "عطلة رسمية",
     date: "2026-10-25",
     text: "لا دوام يوم الأحد بسبب العطلة الرسمية (إعلان تجريبي).",
@@ -144,6 +153,7 @@ export const grades: Grade[] = [
 
 export type EventType = "امتحان" | "نشاط" | "عطلة" | "عام";
 export type CalendarEvent = {
+  sample?: boolean;
   id: string;
   title: string;
   date: string;
@@ -153,12 +163,12 @@ export type CalendarEvent = {
 };
 
 export const events: CalendarEvent[] = [
-  { id: "e1", title: "امتحان رياضيات", date: "2026-10-18", type: "امتحان", confirmed: true, grades: [9] },
-  { id: "e2", title: "اجتماع أولياء الأمور", date: "2026-10-20", type: "عام", confirmed: true, grades: [7] },
-  { id: "e3", title: "عطلة رسمية", date: "2026-10-25", type: "عطلة", confirmed: true },
-  { id: "e4", title: "معرض العلوم", date: "2026-11-05", type: "نشاط", confirmed: false },
-  { id: "e5", title: "امتحان لغة عربية", date: "2026-11-10", type: "امتحان", confirmed: false, grades: [8] },
-  { id: "e6", title: "رحلة الصف السابع", date: "2026-11-19", type: "نشاط", confirmed: false, grades: [7] },
+  { id: "e1", title: "امتحان رياضيات", date: "2026-10-18", type: "امتحان", confirmed: false, sample: true, grades: [9] },
+  { id: "e2", title: "اجتماع أولياء الأمور", date: "2026-10-20", type: "عام", confirmed: false, sample: true, grades: [7] },
+  { id: "e3", title: "عطلة رسمية", date: "2026-10-25", type: "عطلة", confirmed: false, sample: true },
+  { id: "e4", title: "معرض العلوم", date: "2026-11-05", type: "نشاط", confirmed: false, sample: true },
+  { id: "e5", title: "امتحان لغة عربية", date: "2026-11-10", type: "امتحان", confirmed: false, sample: true, grades: [8] },
+  { id: "e6", title: "رحلة الصف السابع", date: "2026-11-19", type: "نشاط", confirmed: false, sample: true, grades: [7] },
 ];
 
 export type Challenge = {

@@ -8,7 +8,7 @@ import { brandCss, themeColor } from "@/brand";
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s | ${site.name}` },
   description: `الموقع الرسمي لـ${site.name}، ${site.grades}.`,
-  icons: { icon: "/logo.svg" },
+  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = { themeColor };
@@ -23,8 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
       </head>
       <body>
+        <a className="skip-link" href="#main-content">انتقل إلى المحتوى</a>
         <Header />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
       </body>
     </html>

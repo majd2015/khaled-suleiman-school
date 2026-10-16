@@ -25,6 +25,7 @@ export default async function NewsItemPage({ params }: { params: Promise<{ slug:
       <PageHead title={item.title} subtitle={`${item.category} · ${formatDate(item.date)}`} />
       <section className="section">
         <article className="container prose">
+          {item.sample && <p className="demo-notice">خبر تجريبي لعرض التصميم؛ لا يوثّق حدثًا معتمدًا من المدرسة.</p>}
           {item.image && <img src={item.image} alt="" style={{ borderRadius: 14, marginBottom: 16 }} />}
           {item.body.map((p, i) => <p key={i}>{p}</p>)}
           {item.sourceUrl && <p><a href={item.sourceUrl}>عرض المنشور على فيسبوك</a></p>}

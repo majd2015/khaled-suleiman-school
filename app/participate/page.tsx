@@ -18,7 +18,7 @@ const items = [
 export default function Participate() {
   return (
     <>
-      <PageHead title="شارك" subtitle="كل ما يكتبه الطالب يراجعه معلّم قبل النشر" />
+      <PageHead title="شارك" subtitle="رأي تدعمه بدليل، وكتاب يستحق المشاركة، وكلمة تصنع فرقًا." />
       <section className="section">
         <div className="container grid">
           {items.map((i) => (

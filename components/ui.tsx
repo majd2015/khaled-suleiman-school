@@ -26,6 +26,7 @@ export function NewsCard({ item }: { item: NewsItem }) {
     <Link href={`/news/${item.slug}`} className="card link" style={{ color: "inherit" }}>
       <div className="thumb">{item.image ? <img src={item.image} alt="" /> : <Icon name="news" size={40} />}</div>
       <div className="meta">
+        {item.sample && <span className="badge">خبر تجريبي</span>}
         <span className="badge">{item.category}</span>
         <span>{formatDate(item.date)}</span>
       </div>
@@ -39,6 +40,7 @@ export function AnnouncementCard({ a }: { a: Announcement }) {
   return (
     <li className="card">
       <div className="meta">
+        {a.sample && <span className="badge">إعلان تجريبي</span>}
         {a.urgent && <span className="badge urgent">عاجل</span>}
         <span>{formatDate(a.date)}</span>
         {a.grades?.map((g) => (

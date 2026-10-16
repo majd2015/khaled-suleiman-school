@@ -7,7 +7,7 @@ export const metadata = { title: "الكلمة الطيبة صدقة" };
 export default function KindWord() {
   return (
     <>
-      <PageHead title="الكلمة الطيبة صدقة" subtitle="اكتب رسالة شكر لزميل أو معلّم، تُعلَّق على شجرة الشعبة دون اسم" />
+      <PageHead title="الكلمة الطيبة صدقة" subtitle="تدرّب على كتابة رسالة شكر لزميل أو معلّم." />
       <section className="section">
         <div className="container split">
           <div>
