@@ -6,6 +6,12 @@ export function generateStaticParams() {
   return newsletters.map((n) => ({ slug: n.slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const n = newsletters.find((x) => x.slug === slug);
+  return n ? { title: n.title, description: `${n.title} (${n.month}): ${n.stories.map((s) => s.title).join("، ")}.` } : {};
+}
+
 export default async function NewsletterIssue({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const n = newsletters.find((x) => x.slug === slug);

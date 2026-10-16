@@ -7,6 +7,12 @@ export function generateStaticParams() {
   return challenges.map((c) => ({ slug: c.slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const c = challenges.find((x) => x.slug === slug);
+  return c ? { title: c.title, description: `تحدٍّ في ${c.subject} لمستوى ${c.level}: ${c.question}`.slice(0, 160) } : {};
+}
+
 export default async function ChallengePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const c = challenges.find((x) => x.slug === slug);

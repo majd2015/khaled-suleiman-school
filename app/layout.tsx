@@ -2,13 +2,17 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { site } from "@/site.config";
+import { site, siteUrl } from "@/site.config";
 import { brandCss, themeColor } from "@/brand";
 
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s | ${site.name}` },
-  description: `الموقع الرسمي لـ${site.name}، ${site.grades}.`,
-  icons: { icon: "/favicon.svg" },
+  description: `موقع ${site.name}، ${site.grades}: الأخبار والإعلانات والرزنامة، ومجلة آفاق، ومختبر تفاعلي، ومساحات مشاركة للطلاب.`,
+  icons: { icon: "/favicon.svg", apple: "/icon-192.png" },
+  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
+  openGraph: { type: "website", locale: "ar", siteName: site.name },
+  twitter: { card: "summary_large_image" },
+  robots: siteUrl ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = { themeColor };
