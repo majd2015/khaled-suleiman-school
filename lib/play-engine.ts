@@ -152,6 +152,7 @@ export const cityFacilities = [
     icon: "tool",
   },
 ];
+export const cityTarget = 4;
 export function evaluateCity(ids: string[]) {
   const chosen = cityFacilities.filter((f) => ids.includes(f.id));
   const totals = chosen.reduce(
@@ -167,9 +168,9 @@ export function evaluateCity(ids: string[]) {
     ...totals,
     success:
       totals.cost <= 100 &&
-      totals.learning >= 3 &&
-      totals.green >= 3 &&
-      totals.health >= 3,
+      totals.learning >= cityTarget &&
+      totals.green >= cityTarget &&
+      totals.health >= cityTarget,
   };
 }
 export type PlayProgress = {

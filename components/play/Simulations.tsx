@@ -151,7 +151,7 @@ export function Experiment({ onFinish }: Finish) {
         </div>
         <div className="play-controls">
           <label>
-            توقّعي قبل التجربة
+            توقّعك قبل التجربة
             <select
               value={prediction}
               onChange={(e) => setPrediction(e.target.value)}
@@ -442,7 +442,7 @@ export function RobotGame({ onFinish }: Finish) {
             })}
           </div>
           <p>
-            {commands.length} / {level.max} أوامر
+            الأوامر: {commands.length} من {level.max}
           </p>
           <div
             className="play-command-strip"
@@ -522,9 +522,9 @@ export function CityGame({ onFinish }: Finish) {
   return (
     <div>
       <div className="play-instructions">
-        <strong>ابنِ حيًا متوازنًا بميزانية 100 وحدة.</strong>
+        <strong>ابنِ مدينة متوازنة بميزانية 100 وحدة.</strong>
         <p>
-          اختر مرافق تحقق 3 نقاط على الأقل في كل مجال: التعلّم والبيئة والنشاط.
+          اختر مرافق تحقق 4 نقاط على الأقل في كل مجال: التعلّم والبيئة والنشاط.
           هذه تكاليف ونقاط خيالية للّعبة، وليست تقديرًا اقتصاديًا حقيقيًا.
         </p>
       </div>
@@ -539,10 +539,10 @@ export function CityGame({ onFinish }: Finish) {
             ["النشاط", total.health],
           ].map(([name, value]) => (
             <label key={String(name)}>
-              {name}: {value} / 3
+              {name}: {value} / 4
               <progress
-                max={3}
-                value={Math.min(3, +value)}
+                max={4}
+                value={Math.min(4, +value)}
                 aria-label={String(name)}
               />
             </label>
@@ -625,7 +625,7 @@ export function CityGame({ onFinish }: Finish) {
           <p>
             {total.success
               ? "وفّرت فرص تعلّم ومساحة خضراء ونشاطًا بدنيًا. جرّب لاحقًا تشكيلة أخرى وقارن اختياراتك."
-              : "راجع المؤشرات وأضف أو بدّل مرافق حتى يصل كل مجال إلى 3 نقاط. يمكنك إزالة مرفق بالضغط عليه."}
+              : "راجع المؤشرات وأضف أو بدّل مرافق حتى يصل كل مجال إلى 4 نقاط. يمكنك إزالة مرفق بالضغط عليه."}
           </p>
           {total.success && (
             <button className="btn" onClick={onFinish}>
