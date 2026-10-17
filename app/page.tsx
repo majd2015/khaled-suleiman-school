@@ -50,8 +50,8 @@ const subjects = [
   },
 ];
 export default function Home() {
-  const picks = ["curve-ball", "joke-line", "mercy-to-animals"].map((slug) =>
-    articles.find((a) => a.slug === slug)!,
+  const picks = ["curve-ball", "joke-line", "mercy-to-animals"].map(
+    (slug) => articles.find((a) => a.slug === slug)!,
   );
   const challenge = challenges[0];
   return (
@@ -255,6 +255,36 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section">
+        <div className="container participation-banner">
+          <div>
+            <span className="eyebrow">
+              ساحة التحدّيات / فضولك يلعب دور البطولة
+            </span>
+            <h2>الفكرة تصبح مغامرة.</h2>
+            <p>
+              حلّ ألغاز المختبر، برمج مسار الروبوت، خطّط مدينة أفضل أو اختر
+              نهاية الحكاية. 12 تجربة، وكل محاولة فيها فرصة للتعلّم.
+            </p>
+            <div className="actions">
+              <Link className="btn" href="/play">
+                اختر مغامرتك <ArrowLeft size={18} />
+              </Link>
+              <Link className="text-link" href="/play/passport">
+                جواز تعلّمي <ArrowUpLeft size={18} />
+              </Link>
+            </div>
+          </div>
+          <img
+            src="/assets/play/arena-hero-800.webp"
+            width={800}
+            height={600}
+            alt="تكوين تعليمي زجاجي يجمع روبوتًا وكتابًا وكرة وألغازًا"
+            loading="lazy"
+            style={{ borderRadius: 30, width: "100%" }}
+          />
+        </div>
+      </section>
       <section className="section school-updates">
         <div className="container">
           <div className="section-title">
