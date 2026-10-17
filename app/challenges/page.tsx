@@ -14,6 +14,7 @@ export default async function Challenges({ searchParams }: { searchParams: Promi
       <PageHead title="تحدَّ نفسك" subtitle="تحديات في كل المواد، مع تلميحات تدريجية" />
       <section className="section">
         <div className="container">
+          <div className="card" style={{ marginBottom: 28 }}><h2>تبحث عن تجربة تفاعلية؟</h2><p>ألغاز المختبر، مدرّب الفريق، برمجة الروبوت، قصص تختار مسارها والمزيد.</p><Link className="btn" href="/play">افتح ساحة التحدّيات ←</Link></div>
           <div className="split" style={{ marginBottom: 24 }}>
             <p className="prose">اختر تحدّيًا يناسب صفك. لكل تحدٍّ تلميحات تظهر واحدًا تلو الآخر، وتقدّمك يُحفظ على جهازك.</p>
             <Illustration id="challenge-lab" className="art" />

@@ -38,6 +38,7 @@ export default function Footer() {
             <h3>اكتشف وشارك</h3>
             <Link href="/articles">مجلة آفاق</Link>
             <Link href="/discover">المختبر التفاعلي</Link>
+            <Link href="/play">ساحة التحدّيات</Link>
             <Link href="/challenges">تحدَّ نفسك</Link>
             <Link href="/participate">مساحة المشاركة</Link>
           </div>
