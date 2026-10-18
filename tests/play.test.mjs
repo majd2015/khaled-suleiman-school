@@ -62,8 +62,11 @@ test("ideal projectile agrees with known ranges and complementary angles", () =>
   );
 });
 test("city accepts balanced affordable plans, rejects overspend and cannot double count facilities", () => {
-  assert.equal(evaluateCity(["library", "garden", "court"]).success, true);
+  // The easy trio no longer passes; a real trade-off is needed at target 4.
+  assert.equal(evaluateCity(["library", "garden", "court"]).success, false);
   assert.equal(evaluateCity(["library", "garden", "court"]).cost, 70);
+  assert.equal(evaluateCity(["library", "court", "solar", "cycle"]).success, true);
+  assert.equal(evaluateCity(["library", "garden", "court", "solar"]).success, true);
   assert.equal(evaluateCity(cityFacilities.map((f) => f.id)).success, false);
   assert.equal(evaluateCity(["library", "library", "unknown"]).cost, 25);
   assert.equal(evaluateCity(["garden", "court"]).success, false);

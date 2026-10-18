@@ -1879,3 +1879,11 @@
     transform: none;
   }
 }
+
+/* Larger tap areas for small text links, without changing their look. */
+.play-space .play-breadcrumb a,
+.play-space .play-sources li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}

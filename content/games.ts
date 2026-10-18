@@ -39,7 +39,7 @@ export const games: Game[] = [
     category: "علوم ومنطق",
     minutes: 6,
     color: "cyan",
-    image: "lab",
+    image: "launch",
     kind: "experiment",
     skill: "التوقع وضبط المتغيرات",
   },
@@ -61,7 +61,7 @@ export const games: Game[] = [
     category: "قيم وحياة",
     minutes: 5,
     color: "violet",
-    image: "story",
+    image: "choices",
     kind: "quiz",
     skill: "التعاطف واتخاذ القرار",
   },
@@ -83,7 +83,7 @@ export const games: Game[] = [
     category: "علوم ومنطق",
     minutes: 5,
     color: "orange",
-    image: "detective",
+    image: "puzzle",
     kind: "quiz",
     skill: "التدقيق والتفكير النقدي",
   },
@@ -116,7 +116,7 @@ export const games: Game[] = [
     category: "قيم وحياة",
     minutes: 5,
     color: "cyan",
-    image: "story",
+    image: "values",
     kind: "quiz",
     skill: "تطبيق قيم التربية الإسلامية",
   },
@@ -127,7 +127,7 @@ export const games: Game[] = [
     category: "لغة وإبداع",
     minutes: 8,
     color: "orange",
-    image: "story",
+    image: "writing",
     kind: "creative",
     skill: "التعبير والخيال ومراجعة الكتابة",
   },
@@ -138,7 +138,7 @@ export const games: Game[] = [
     category: "لغة وإبداع",
     minutes: 6,
     color: "blue",
-    image: "detective",
+    image: "reading",
     kind: "article",
     skill: "الفهم القرائي ونقل المعرفة",
   },
@@ -155,7 +155,7 @@ export const questions: Record<string, Question[]> = {
   "escape-lab": [
     {
       question: "القفل الأول: ما العدد التالي في النمط؟",
-      display: "3 → 6 → 12 → 24 → ؟",
+      display: "3، 6، 12، 24، ؟",
       options: ["30", "48", "36"],
       answer: 1,
       hint: "قارن كل عدد بالعدد الذي قبله.",
@@ -171,7 +171,7 @@ export const questions: Record<string, Question[]> = {
       answer: 0,
       hint: "يحتاج التيار مسارًا كاملًا.",
       explanation:
-        "الدائرة تحتاج مصدرًا ومسارًا موصلًا مغلقًا عبر المصباح. النشاط افتراضي؛ لا نجرب كهرباء المنزل.",
+        "الدائرة تحتاج مصدرًا ومسارًا موصلًا مغلقًا عبر المصباح. النشاط افتراضي؛ لا تجرّب ذلك أبدًا على كهرباء المنزل.",
     },
     {
       question:
@@ -238,7 +238,7 @@ export const questions: Record<string, Question[]> = {
   "news-detective": [
     {
       question:
-        "صورة عنوان تقول: «إلغاء الرحلة غدًا»، دون رابط أو تاريخ. ماذا تفعل؟",
+        "لقطة شاشة لعنوان يقول: «إلغاء الرحلة المدرسية غدًا»، دون رابط أو تاريخ. ماذا تفعل؟",
       options: [
         "أنشرها بسرعة",
         "أراجع إعلان المدرسة الأصلي وتاريخه",
@@ -251,7 +251,7 @@ export const questions: Record<string, Question[]> = {
     },
     {
       question:
-        "صورة قيل إنها لملعب قريب اليوم، لكنك وجدتها في تقرير عن مدينة أخرى قبل سنتين. ماذا يعني ذلك؟",
+        "صورة قيل إنها التُقطت اليوم في ملعب قريب، لكنك وجدتها في تقرير عن مدينة أخرى قبل سنتين. ماذا يعني ذلك؟",
       options: [
         "قد تكون الصورة حقيقية، لكن السياق لا يثبت الادعاء",
         "كل صور الإنترنت مزيفة",
@@ -325,7 +325,7 @@ export const questions: Record<string, Question[]> = {
         "بعد الخصم الأول يصبح السعر 80، ثم نطرح 8 فيصبح 72. لا نجمع نسبتين مطبقتين على أساسين مختلفين.",
     },
     {
-      question: "قال طالب: القمر يصنع ضوءه مثل الشمس. أين الخطأ؟",
+      question: "قال طالب: القمر يصنع ضوءه مثل الشمس. ما التصحيح الصحيح؟",
       options: [
         "القمر يعكس ضوء الشمس",
         "الشمس تعكس ضوء القمر",
@@ -336,7 +336,7 @@ export const questions: Record<string, Question[]> = {
       explanation: "نرى الجزء المضاء من القمر لأنه يعكس ضوء الشمس.",
     },
     {
-      question: "أي صياغة صحيحة للجمع في هذه الجملة؟",
+      question: "أيّ الجمل الآتية صحيحة نحويًا؟",
       options: [
         "هؤلاء طالبٌ مجتهدٌ",
         "هذا طلابٌ مجتهدون",
@@ -345,7 +345,7 @@ export const questions: Record<string, Question[]> = {
       answer: 2,
       hint: "اسم الإشارة والمشار إليه هنا لجمع أشخاص.",
       explanation:
-        "نستخدم «هؤلاء» للإشارة إلى جمع، و«طلاب مجتهدون» خبر مناسب في هذه الجملة.",
+        "نستخدم «هؤلاء» للإشارة إلى الجمع العاقل، و«طلابٌ» خبرٌ مرفوع، و«مجتهدون» نعتٌ مرفوع بالواو لأنه جمع مذكر سالم.",
     },
     {
       question:
@@ -413,8 +413,8 @@ export const learningSources = [
     url: "https://craft.stanford.edu/resource/how-do-i-fact-check-ai-search-results/",
   },
   {
-    label: "UNESCO: التحقق من الصور والسياق",
-    url: "https://www.unesco.org/en/articles/unesco-launches-iraqi-fact-checking-platform-ifct",
+    label: "UNESCO: التربية الإعلامية والمعلوماتية",
+    url: "https://www.unesco.org/en/media-information-literacy",
   },
   { label: "الأمانة: سورة النساء، الآية 58", url: "https://quran.com/4/58" },
   { label: "التبيّن: سورة الحجرات، الآية 6", url: "https://quran.com/49/6" },
