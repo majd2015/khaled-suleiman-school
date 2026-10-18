@@ -9,3 +9,9 @@ out
 .env
 *.tsbuildinfo
 next-env.d.ts
+
+.calendar-data/
+
+.next-calendar
+
+.next-calendar-build

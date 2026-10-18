@@ -8,7 +8,7 @@ const routes=["/","/articles","/discover","/discover?subject=math","/grades","/g
 const assets=[...data.flatMap(a=>a.cover.srcSet.map(s=>"/assets/articles/"+s.src.split("/").pop())),...data.filter(a=>a.diagram).map(a=>"/assets/diagrams/"+a.diagram.src.split("/").pop()),...fs.readdirSync(new URL("../public/assets/illustrations",import.meta.url)).filter(f=>f.endsWith(".webp")).map(f=>"/assets/illustrations/"+f)];
 const failures=[];
 for(let i=0;i<routes.length+assets.length;i+=6){const paths=[...routes,...assets].slice(i,i+6);await Promise.all(paths.map(async p=>{try{const r=await fetch(base+p);assert.equal(r.status,200,p);if(routes.includes(p)){const html=await r.text();assert.ok(html.includes('dir="rtl"'),p);assert.equal((html.match(/<h1(?:\s|>)/g)||[]).length,1,p);}}catch(e){failures.push(String(e));}}));}
-const calendar=await (await fetch(base+"/calendar.ics")).text();assert.ok(!calendar.includes("BEGIN:VEVENT"),"Demo dates must never be exported");
+const calendar=await (await fetch(base+"/calendar.ics")).text();assert.ok(!/UID:e[1-6]-/.test(calendar),"Demo dates must never be exported");
 assert.equal((await fetch(base+"/api/social/publish",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}"})).status,401);
 assert.equal((await fetch(base+"/articles/does-not-exist")).status,404);
 assert.equal(failures.length,0,failures.join("\n"));

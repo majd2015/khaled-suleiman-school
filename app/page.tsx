@@ -1,3 +1,6 @@
+import { readEvents } from "@/lib/calendar-store";
+import { isPublic, occurrences, todayInSchool, addDays, statusLabels, months } from "@/lib/calendar";
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -13,7 +16,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import Illustration from "@/components/Illustration";
-import { grades, challenges, announcements, events } from "@/content/data";
+import { grades, challenges, announcements } from "@/content/data";
 import { gradeIllustration } from "@/content/assets";
 import { articles } from "@/lib/articles";
 import ArticleCard from "@/components/articles/ArticleCard";
@@ -49,7 +52,10 @@ const subjects = [
     id: "electronics",
   },
 ];
-export default function Home() {
+export default async function Home() {
+  const today = todayInSchool();
+  const calendarItems = occurrences((await readEvents()).filter(e => isPublic(e) && e.status !== "cancelled"), today, addDays(today, 366));
+  const events = calendarItems.some(e => !e.sample) ? calendarItems.filter(e => !e.sample) : calendarItems;
   const picks = ["curve-ball", "joke-line", "mercy-to-animals"].map(
     (slug) => articles.find((a) => a.slug === slug)!,
   );
@@ -317,17 +323,17 @@ export default function Home() {
             </div>
             <div className="card">
               <h3 className="inline-icon">
-                <CalendarDays size={21} /> من الرزنامة التجريبية
+                <CalendarDays size={21} /> من رزنامة المدرسة
               </h3>
               {events.slice(0, 2).map((e) => (
-                <Link key={e.id} className="update-row" href="/calendar">
+                <Link key={e.key} className="update-row" href={`/calendar?view=day&date=${e.occurrenceDate}&event=${e.id}`}>
                   <span className="date-tile">
-                    {e.date.slice(8)}
-                    <small>تشرين الأول</small>
+                    {e.occurrenceDate.slice(8)}
+                    <small>{months[Number(e.occurrenceDate.slice(5,7))-1]}</small>
                   </span>
                   <span>
                     <strong>{e.title}</strong>
-                    <small>موعد تجريبي غير معتمد</small>
+                    <small>{e.sample ? "موعد تجريبي غير معتمد" : statusLabels[e.status]}</small>
                   </span>
                   <ArrowUpLeft size={18} />
                 </Link>
