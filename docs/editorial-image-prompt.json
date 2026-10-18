@@ -1,0 +1,12 @@
+{
+  "asset": "learning-landscape-v2",
+  "tool": "OpenAI built-in image_gen",
+  "created": "2026-10-18",
+  "prompt": "Use case: stylized-concept. Create an original editorial hero illustration for an Arabic middle school learning games website, ages 12-15. Landscape 4:3 composition. A sophisticated tactile miniature learning landscape on a pale warm ivory background: open book with layered cream paper pages in the center, a small paper bridge model, a blue geometric arch and violet solid, a modest orange sports ball, cyan ruler and pencil, small leafy plant, and two small wooden puzzle pieces. All objects coherent matte paper, painted wood and soft clay materials, editorial craftsmanship, NOT transparent glass, NOT neon or futuristic sci-fi. Gentle dimensional perspective, warm natural side light, delicate shadows, generous breathing space around the composition. Palette principally cream #F7F5EF, ink navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; limited green only in plant. Refined and inviting, suitable for adolescents not baby toys. No people, faces, building, brand, logo, watermark, text, letters, numbers, equations or writing anywhere. No UI panels. Render as beautiful finished standalone raster website art.",
+  "formats": [
+    "480x360 WebP",
+    "800x600 WebP",
+    "1440x1080 WebP"
+  ],
+  "note": "Original generated editorial artwork. No reference school images copied; original PNG retained in local output package."
+}

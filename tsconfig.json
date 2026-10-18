@@ -26,15 +26,19 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "allowImportingTsExtensions": true
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    ".next-calendar/types/**/*.ts",
+    ".next-final/types/**/*.ts",
+    ".next-games-build/types/**/*.ts",
     ".next-preview/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next-final/types/**/*.ts"
+    ".next-calendar-build/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
