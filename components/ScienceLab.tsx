@@ -89,7 +89,7 @@ export default function ScienceLab({
           THREE,
           container: container.current,
           createModel: factories[selected as keyof typeof factories],
-          fallbackUrl: "/assets/illustrations/" + subject.fallback + ".webp",
+          fallbackUrl: "/assets/illustrations/" + subject.fallback + "-800.webp",
           label: subject.title,
         });
         setStatus("");
@@ -126,7 +126,12 @@ export default function ScienceLab({
           {!enabled && (
             <div className="lab-poster">
               <img
-                src={"/assets/illustrations/" + subject.fallback + ".webp"}
+                src={"/assets/illustrations/" + subject.fallback + "-800.webp"}
+                srcSet={[480, 800]
+                  .map((w) => `/assets/illustrations/${subject.fallback}-${w}.webp ${w}w`)
+                  .concat(`/assets/illustrations/${subject.fallback}.webp 1600w`)
+                  .join(", ")}
+                sizes="(max-width: 760px) 90vw, 560px"
                 width={1600}
                 height={1200}
                 alt="تكوين زجاجي مستوحى من مجالات المعرفة"

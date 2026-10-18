@@ -89,7 +89,7 @@ export default function ArticleLibrary({
               : categories.find((c) => c.id === category)?.label}
         </h2>
         <p aria-live="polite" role="status">
-          {results.length} مقالًا{query && " · نتائج البحث"}
+          {countLabel(results.length)}{query && " · نتائج البحث"}
         </p>
       </div>
       {results.length ? (
@@ -142,4 +142,11 @@ export default function ArticleLibrary({
       </p>
     </div>
   );
+}
+function countLabel(n: number) {
+  if (n === 0) return "لا مقالات";
+  if (n === 1) return "مقال واحد";
+  if (n === 2) return "مقالان";
+  if (n <= 10) return n + " مقالات";
+  return n + " مقالًا";
 }

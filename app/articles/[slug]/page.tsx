@@ -19,7 +19,14 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const a = articles.find((x) => x.slug === slug);
-  return { title: a?.title, description: a?.excerpt };
+  if (!a) return {};
+  // صورة المشاركة: الغلاف بعرض 1600 (نسبة 16:9)
+  const image = a.cover.srcSet.find((s) => s.width === 1600)?.src ?? a.cover.src;
+  return {
+    title: a.title,
+    description: a.excerpt,
+    openGraph: { type: "article", title: a.title, description: a.excerpt, images: [{ url: articleImage(image), width: 1600, height: 900, alt: a.cover.alt }] },
+  };
 }
 export default async function ArticlePage({
   params,
