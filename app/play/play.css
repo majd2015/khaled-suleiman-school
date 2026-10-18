@@ -1,6 +1,6 @@
 .play-space {
   --play-line: #dce5f1;
-  --play-paper: linear-gradient(145deg, #ffffffed, #f5f9ffdb);
+  --play-surface: var(--content-surface, #f7f9ff);
   background:
     radial-gradient(ellipse at 0 0, #e6e9ff80, transparent 34%),
     radial-gradient(ellipse at 100% 18%, #d8f7ff70, transparent 30%);
@@ -129,7 +129,7 @@
 .play-progress-link {
   border: 1px solid #fff;
   border-radius: 24px;
-  background: var(--play-paper);
+  background: var(--play-surface);
   box-shadow: var(--shadow);
   padding: 24px;
   display: flex;
@@ -285,7 +285,7 @@
   display: flex;
   flex-direction: column;
   color: #10182f;
-  background: var(--play-paper);
+  background: var(--play-surface);
   border: 1px solid #fff;
   outline: 1px solid #dce5f199;
   border-radius: 27px;
@@ -409,7 +409,7 @@
   border: 1px solid #fff;
   border-radius: 26px;
   padding: 30px;
-  background: var(--play-paper);
+  background: var(--play-surface);
   box-shadow: var(--shadow);
 }
 .play-community-callout {
@@ -478,7 +478,7 @@
   border: 1px solid #fff;
   outline: 1px solid #dce5f1;
   border-radius: 28px;
-  background: var(--play-paper);
+  background: var(--play-surface);
   box-shadow: 0 16px 48px #3c507e0b;
 }
 .play-workbench h2 {
@@ -1185,7 +1185,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  background: var(--play-paper);
+  background: var(--play-surface);
   border: 1px solid #fff;
   border-radius: 26px;
   box-shadow: var(--shadow);
@@ -1313,7 +1313,7 @@
 }
 .play-ideas article {
   border: 1px solid #fff;
-  background: var(--play-paper);
+  background: var(--play-surface);
   border-radius: 21px;
   padding: 25px;
   box-shadow: var(--shadow);
@@ -1888,11 +1888,11 @@
   min-height: 44px;
 }
 
-/* Editorial imagery balances the glass navigation and controls. */
+/* Paper subjects share the glass artwork’s cool studio background. */
 .play-hero-art {
-  background: #f7f2e8;
+  background: var(--art-backdrop);
   border: 0;
-  box-shadow: 0 20px 45px #4e443514;
+  box-shadow: 0 20px 45px #4b6fb51a;
   overflow: hidden;
   border-radius: 36px 12px 36px 12px;
 }
@@ -1901,25 +1901,25 @@
   border-radius: inherit;
 }
 .play-card {
-  background: #fffdf9;
+  background: var(--content-surface);
   backdrop-filter: none;
   border: 1px solid #e5e8ed;
   box-shadow: 0 8px 22px #24354a0a;
 }
 .play-card-art {
-  background: #f3f0e9;
+  background: var(--art-backdrop);
 }
 .play-card-copy {
-  background: #fffdf9;
+  background: var(--content-surface);
 }
 .play-story {
-  background: #fffdf8;
+  background: var(--content-surface);
   border-radius: 24px;
   padding: 22px;
 }
 .play-story-picture img {
   border-radius: 19px;
-  box-shadow: 0 8px 25px #40342612;
+  box-shadow: 0 8px 25px #3b517812;
 }
 .play-story-clue,
 .play-evidence {

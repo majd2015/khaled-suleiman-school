@@ -38,9 +38,9 @@
   direction: ltr;
   border-radius: 28px;
   overflow: hidden;
-  background: linear-gradient(140deg, #fff, #eaf1ff);
-  border: 1px solid white;
-  box-shadow: var(--shadow);
+  background: var(--content-surface);
+  border: 1px solid var(--content-line);
+  box-shadow: var(--content-shadow);
   color: var(--text);
 }
 .featured-image {
@@ -264,6 +264,14 @@
 }
 .reader-content {
   min-width: 0;
+  width: 100%;
+  max-width: 780px;
+  padding: clamp(18px, 3vw, 42px);
+  background: var(--content-surface);
+  border: 1px solid var(--content-line);
+  border-radius: 26px;
+  box-shadow: var(--content-shadow);
+  overflow-wrap: anywhere;
 }
 .reader-toolbar {
   display: flex;
@@ -295,7 +303,7 @@
   padding: 23px;
   border: 1px solid #dae6f6;
   border-radius: 20px;
-  background: #eaf3ffb0;
+  background: #eef4fc;
   margin-bottom: 32px;
 }
 .learning-goal > svg {
@@ -342,7 +350,7 @@
 }
 .reader-activity {
   border: 1px solid #e1d9fa;
-  background: linear-gradient(140deg, #f3f0ff, #f8faff);
+  background: #f4f0fb;
   padding: 28px;
   border-radius: 23px;
   scroll-margin-top: 120px;
@@ -388,7 +396,7 @@
 .article-quiz {
   border: 1px solid #cddff3;
   border-radius: 24px;
-  background: var(--glass);
+  background: #f1f5fb;
   padding: 28px;
   margin: 25px 0;
 }
@@ -707,5 +715,34 @@
 @media (prefers-reduced-motion: reduce) {
   .reading-progress {
     display: none;
+  }
+}
+
+/* Reading measure and gutters remain comfortable when the reader enlarges text. */
+.reader-content .reader-section {
+  max-width: 65ch;
+  margin-inline: auto;
+}
+@media (max-width: 700px) {
+  .reader-content {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+  .reader-activity,
+  .article-quiz,
+  .learning-goal {
+    padding: 18px 14px;
+  }
+  .reader-toolbar .btn {
+    flex-wrap: wrap;
+  }
+}
+@media print {
+  .reader-content {
+    background: white;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
   }
 }

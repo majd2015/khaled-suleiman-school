@@ -1,0 +1,12 @@
+Design mix / shared cool backgrounds — 2026-10-18
+
+Current visual direction: paper/wood subjects and retained glass subjects share backgrounds derived from the glass laboratory artwork. Ice blue, cyan and soft lavender replace the beige stages; opaque cool-white #F7F9FF content surfaces preserve reading contrast.
+
+Production build passed, including type checks and 91 generated pages.
+HTTP smoke checks passed: 75 site pages and 171 article/illustration assets; 12 arena pages and 42 image files; 44 article/game links. No failures.
+Browser checks passed for home, grades, article reader and arena at 1440px and 390px: 8 viewport/page checks, no horizontal overflow or broken visible images. Computed reading/card background is rgb(247,249,255). Desktop mixed game cards and mobile sports card visually inspected and saved.
+Image background edits: 7 images, 21 exact 4:3 WebP variants (480/800/1440 widths), 2011566 bytes total. Used the built-in image_gen editing tool and lab-1440.webp as the background/light reference. Final prompts and referenced files are recorded in DESIGN-MIX-ASSETS.json.
+Full original new-art validation also passed: 42 variants, including 24 transparent illustration variants. Hash checks confirmed the 2 retained glass site originals, 12 retained glass game variants, brand.ts, article content and 3D model source are unchanged.
+Existing automated suite: 26 tests passed on the initial design commit 7c7be57. This background follow-up changes only CSS, artwork and documentation; build/HTTP/browser/image checks were rerun for it. No additional game or calendar logic changes.
+
+Scope: no database, calendar records/auth, article text/cover, game-engine or user-draft changes. No public deployment. PR4 remains separate; keep this branch's updated artwork at all sizes when merging it later.
