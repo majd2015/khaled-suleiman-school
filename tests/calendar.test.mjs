@@ -40,6 +40,18 @@ test('file storage survives rereads, serializes writes and prevents stale overwr
   const updated=await saveEvent({...a,title:'عنوان معدل'},a.id,a.revision);assert.equal(updated.revision,2);
   await assert.rejects(()=>saveEvent(a,a.id,a.revision),e=>e.status===409);
   assert.equal((await readEvents()).find(e=>e.id===a.id).title,'عنوان معدل');
+  const backupNames=await fs.readdir(path.join(temp,'backups'));
+  assert.equal(backupNames.length,3);
+  const snapshots=await Promise.all(backupNames.map(name=>fs.readFile(path.join(temp,'backups',name),'utf8').then(JSON.parse)));
+  assert.ok(snapshots.some(snapshot=>snapshot.events.find(e=>e.id===a.id&&e.title===fixture.title)));
+  let latest=updated;
+  for(let i=0;i<10;i++)latest=await saveEvent({...latest,title:`تعديل ${i}`},latest.id,latest.revision);
+  assert.equal((await fs.readdir(path.join(temp,'backups'))).length,10);
+  const healthy=await fs.readFile(path.join(temp,'events.json'),'utf8');
+  await fs.writeFile(path.join(temp,'events.json'),'{invalid');
+  await assert.rejects(()=>saveEvent(fixture));
+  assert.equal(await fs.readFile(path.join(temp,'events.json'),'utf8'),'{invalid');
+  await fs.writeFile(path.join(temp,'events.json'),healthy);
   const salt='test-salt',password='temporary-test-password-not-deployed';await fs.writeFile(path.join(temp,'auth.json'),JSON.stringify({salt,hash:scryptSync(password,salt,64).toString('hex'),secret:'test-secret-only'}));
   assert.equal(await checkPassword(password),true);assert.equal(await checkPassword('wrong'),false);const session=await createSession();assert.equal(await validSession(session),true);assert.equal(await validSession(session+'x'),false);assert.equal(await validSession('1.nonce.signature'),false);
  }finally{if(previous===undefined)delete process.env.CALENDAR_DATA_DIR;else process.env.CALENDAR_DATA_DIR=previous;if(path.dirname(temp)===os.tmpdir()&&path.basename(temp).startsWith('school-calendar-test-'))await fs.rm(temp,{recursive:true,force:true});}
