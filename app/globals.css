@@ -1,13 +1,17 @@
-/* Shared identity: glass controls and warm opaque editorial surfaces. */
+/* Shared identity: cool glass-derived backgrounds unite paper art and glass controls. */
 :root {
   color-scheme: light;
   --radius: 26px;
   --shadow: inset 0 1px 1px #fff, 0 10px 28px #344d6f0d, 0 3px 0 #dce6f180;
   --glass: linear-gradient(145deg, #fffffff5, #f8fbfff2 60%, #eaf1ffdd);
   --control-radius: 14px;
-  --paper: #fffdf9;
-  --paper-line: #e7e2d9;
-  --paper-shadow: 0 10px 30px #493d2a0a;
+  --content-surface: #f7f9ff;
+  --content-line: #dce5f2;
+  --content-shadow: 0 10px 30px #344d6f0d;
+  --art-backdrop:
+    radial-gradient(ellipse at 18% 16%, #dcf5ff 0%, transparent 58%),
+    radial-gradient(ellipse at 88% 75%, #e5e1fa 0%, transparent 62%),
+    linear-gradient(135deg, #f2f7ff, #e8effc);
 }
 * {
   box-sizing: border-box;
@@ -474,7 +478,7 @@ main {
   padding: 40px;
   border: 1px solid #dfe7f0;
   border-radius: 32px;
-  background: #edf3fb;
+  background: var(--art-backdrop);
   box-shadow: 0 12px 35px #344d6f08;
 }
 .knowledge-panel .eyebrow {
@@ -490,10 +494,10 @@ main {
   display: block;
   position: relative;
   padding: 26px 22px 20px;
-  border: 1px solid var(--paper-line);
+  border: 1px solid var(--content-line);
   border-radius: 24px;
-  background: var(--paper);
-  box-shadow: var(--paper-shadow);
+  background: var(--content-surface);
+  box-shadow: var(--content-shadow);
   color: var(--text);
   transition: transform 0.25s;
 }
@@ -519,9 +523,13 @@ main {
   height: 68px;
   border: 1px solid white;
   border-radius: 19px;
-  background: color-mix(in srgb, var(--tone, var(--primary)) 8%, var(--paper));
+  background: color-mix(
+    in srgb,
+    var(--tone, var(--primary)) 8%,
+    var(--content-surface)
+  );
   box-shadow: 0 4px 0
-    color-mix(in srgb, var(--tone, var(--primary)) 16%, #e7e2d9);
+    color-mix(in srgb, var(--tone, var(--primary)) 16%, #dce5f2);
   color: var(--tone);
   margin-bottom: 27px;
   transform: rotate(-5deg);
@@ -555,11 +563,11 @@ main {
   gap: 24px;
 }
 .card {
-  background: var(--paper);
-  border: 1px solid var(--paper-line);
+  background: var(--content-surface);
+  border: 1px solid var(--content-line);
   border-radius: var(--radius);
   padding: 26px;
-  box-shadow: var(--paper-shadow);
+  box-shadow: var(--content-shadow);
 }
 .card h3 {
   margin: 0 0 12px;
@@ -657,10 +665,10 @@ main {
   flex-direction: column;
   min-width: 0;
   border-radius: 26px;
-  background: var(--paper);
-  border: 1px solid var(--paper-line);
+  background: var(--content-surface);
+  border: 1px solid var(--content-line);
   overflow: hidden;
-  box-shadow: var(--paper-shadow);
+  box-shadow: var(--content-shadow);
   transition:
     transform 0.2s,
     box-shadow 0.2s;
@@ -763,7 +771,7 @@ main {
   --gc: var(--g7);
   color: var(--text);
   transition: transform 0.2s;
-  background: var(--paper);
+  background: var(--content-surface);
   border: 1px solid color-mix(in srgb, var(--gc) 15%, white);
 }
 .grade-tile:hover {
@@ -789,6 +797,8 @@ main {
   line-height: 1;
 }
 .grade-art {
+  background: var(--art-backdrop);
+  border-radius: 20px;
   height: 200px !important;
   object-fit: contain;
   margin-bottom: 16px;
@@ -821,10 +831,10 @@ main {
   gap: 40px;
   align-items: center;
   padding: 45px 55px;
-  background: var(--paper);
+  background: var(--content-surface);
   border-radius: 32px;
-  border: 1px solid var(--paper-line);
-  box-shadow: var(--paper-shadow);
+  border: 1px solid var(--content-line);
+  box-shadow: var(--content-shadow);
 }
 .participation-banner h2 {
   font-size: 40px;
@@ -1127,10 +1137,14 @@ input[type="radio"] {
   width: 54px;
   height: 54px;
   border-radius: 16px;
-  background: color-mix(in srgb, var(--tone, var(--primary)) 8%, var(--paper));
+  background: color-mix(
+    in srgb,
+    var(--tone, var(--primary)) 8%,
+    var(--content-surface)
+  );
   color: var(--ic, var(--primary));
   box-shadow: 0 4px 0
-    color-mix(in srgb, var(--tone, var(--primary)) 16%, #e7e2d9);
+    color-mix(in srgb, var(--tone, var(--primary)) 16%, #dce5f2);
   margin-bottom: 19px;
 }
 .mobile-break {

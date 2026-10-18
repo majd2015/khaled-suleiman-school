@@ -1,8 +1,7 @@
 {
   "date": "2026-10-18",
   "tool": "image_gen",
-  "direction": "Mixed tactile paper/wood illustrations with selected retained glass illustrations; ivory content surfaces and glass navigation/controls.",
-  "paper": "#FFFDF9",
+  "direction": "Paper/wood subjects and selected glass illustrations share cool ice-blue, cyan and lavender backgrounds derived from the glass laboratory illustration. Reading/content surfaces are opaque cool white; controls remain glass.",
   "palette": [
     "#10182F",
     "#2563EB",
@@ -102,68 +101,80 @@
     {
       "id": "sports",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A matte orange basketball and a navy-and-cream football, a small wooden whistle and a cream strategy board with a few simple unlabeled blue circles connected by arrows. Convey thoughtful teamwork and sports strategy, not a trophy poster.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET, an educational paper/wood sports illustration. Image 2 is ONLY the reference for BACKGROUND COLOR, LIGHTING and FLOOR MATERIAL, not for objects. Edit image 1: keep its exact subject, object arrangement, camera, proportions, paper textures, wooden whistle, colors and all details. Replace ONLY the warm ivory/beige surrounding background and floor with the cool luminous studio environment of image 2: pale ice-blue fading into very soft lavender, subtle cyan light, a clean lightly reflective frosted-glass floor with delicate cyan/lavender reflections under the existing objects. Neutral cool daylight. Retain visible cream PAPER within the actual objects; do not turn the objects into glass. Do not import the beaker, prism, sphere, cubes, pedestal or any science objects from image 2. No added objects, text, people, symbols or watermarks. Seamless sophisticated pale blue background, not dark, not neon, no warm beige backdrop. Preserve the complete original composition in landscape 4:3, keep everything visible.",
       "transparent": false,
       "files": [
         "public/assets/play/sports-480.webp",
         "public/assets/play/sports-800.webp",
         "public/assets/play/sports-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A matte orange basketball and a navy-and-cream football, a small wooden whistle and a cream strategy board with a few simple unlabeled blue circles connected by arrows. Convey thoughtful teamwork and sports strategy, not a trophy poster.",
+      "reference": "public/assets/play/lab-1440.webp"
     },
     {
       "id": "detective",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A wooden magnifying glass examining three overlapping blank cream paper evidence cards with simple geometric pictograms, a small blue clock with no numbers, and violet paper clips. Visual fact checking, looking for evidence and context, no writing anywhere.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: magnifying glass and paper evidence cards.",
       "transparent": false,
       "files": [
         "public/assets/play/detective-480.webp",
         "public/assets/play/detective-800.webp",
         "public/assets/play/detective-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A wooden magnifying glass examining three overlapping blank cream paper evidence cards with simple geometric pictograms, a small blue clock with no numbers, and violet paper clips. Visual fact checking, looking for evidence and context, no writing anywhere.",
+      "reference": "public/assets/play/lab-1440.webp"
     },
     {
       "id": "story",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: An open cream book whose paper pages become two branching blue and violet paths, one crossing a small elegant wooden bridge, with three blank paper choice cards along the routes and a small orange pencil. An imaginative interactive story about choices and consequences.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: open book with two branching paper paths and a wooden bridge.",
       "transparent": false,
       "files": [
         "public/assets/play/story-480.webp",
         "public/assets/play/story-800.webp",
         "public/assets/play/story-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: An open cream book whose paper pages become two branching blue and violet paths, one crossing a small elegant wooden bridge, with three blank paper choice cards along the routes and a small orange pencil. An imaginative interactive story about choices and consequences.",
+      "reference": "public/assets/play/lab-1440.webp"
     },
     {
       "id": "city",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: An isometric miniature sustainable neighborhood crafted in cream paper and blue and violet painted wood: a few simple houses, an unlabelled small public library, tiny trees and a park, a bicycle path and an orange basketball court. Architectural planning, welcoming and orderly, no cars or people, no text, no claim to depict a real school.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: a complete miniature architectural neighborhood on a base. Keep the model's ground, pathways, gardens and buildings exactly; change only the OUTER empty background and stage under the whole model.",
       "transparent": false,
       "files": [
         "public/assets/play/city-480.webp",
         "public/assets/play/city-800.webp",
         "public/assets/play/city-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: An isometric miniature sustainable neighborhood crafted in cream paper and blue and violet painted wood: a few simple houses, an unlabelled small public library, tiny trees and a park, a bicycle path and an orange basketball court. Architectural planning, welcoming and orderly, no cars or people, no text, no claim to depict a real school.",
+      "reference": "public/assets/play/lab-1440.webp"
     },
     {
       "id": "values",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A perfectly balanced wooden scale with two shallow blue and violet pans, a small open blank cream book and a heart-shaped green leaf sprout beside it. A graceful symbolic still life for fairness, honesty and responsibility. No religious text or portraits.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: wooden balance scale holding a book and heart leaf plant. Preserve both pans and the balanced structure.",
       "transparent": false,
       "files": [
         "public/assets/play/values-480.webp",
         "public/assets/play/values-800.webp",
         "public/assets/play/values-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A perfectly balanced wooden scale with two shallow blue and violet pans, a small open blank cream book and a heart-shaped green leaf sprout beside it. A graceful symbolic still life for fairness, honesty and responsibility. No religious text or portraits.",
+      "reference": "public/assets/play/lab-1440.webp"
     },
     {
       "id": "reading",
       "group": "play",
-      "prompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A cozy editorial still life of an open cream paper book, two upright blue and violet books without spine text, a small matte orange desk lamp, cyan bookmark and a simple leaf. Warm welcoming light on the page, joyful calm reading, no writing anywhere.",
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: open book, books and orange lamp. Preserve the lamp's gentle local warm glow on the paper but remove the warm room background.",
       "transparent": false,
       "files": [
         "public/assets/play/reading-480.webp",
         "public/assets/play/reading-800.webp",
         "public/assets/play/reading-1440.webp"
-      ]
+      ],
+      "initialPrompt": "Use case: stylized-concept. Original landscape 4:3 editorial game cover for an Arabic middle school ages 12-15. Refined miniature sculpture in tactile layered cream paper, painted wood and matte ceramic, warm soft daylight, subtle shadows on a continuous warm ivory #FFFDF9 background. Consistent palette navy #10182F, royal blue #2563EB, cyan #06B6D4, violet #7C3AED, warm orange #EA580C; modest green only for plants. Premium craftsmanship, coherent balanced scene, all objects fully visible with 10% margins. No people or faces, no text letters numbers labels logos or watermark, no glass, no neon, no glossy plastic, not baby toys. Subject: A cozy editorial still life of an open cream paper book, two upright blue and violet books without spine text, a small matte orange desk lamp, cyan bookmark and a simple leaf. Warm welcoming light on the page, joyful calm reading, no writing anywhere.",
+      "reference": "public/assets/play/lab-1440.webp"
     }
   ],
   "retainedGlass": {
@@ -182,5 +193,86 @@
   "notes": [
     "Article content and covers, interactive 3D models, calendar, authentication, database and local drafts are unchanged.",
     "Two unused paper drafts were intentionally excluded to preserve the requested mixed visual style."
+  ],
+  "contentSurface": "#F7F9FF",
+  "backgroundReference": "public/assets/play/lab-1440.webp",
+  "backgroundEdits": [
+    {
+      "id": "sports",
+      "files": [
+        "public/assets/play/sports-480.webp",
+        "public/assets/play/sports-800.webp",
+        "public/assets/play/sports-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET, an educational paper/wood sports illustration. Image 2 is ONLY the reference for BACKGROUND COLOR, LIGHTING and FLOOR MATERIAL, not for objects. Edit image 1: keep its exact subject, object arrangement, camera, proportions, paper textures, wooden whistle, colors and all details. Replace ONLY the warm ivory/beige surrounding background and floor with the cool luminous studio environment of image 2: pale ice-blue fading into very soft lavender, subtle cyan light, a clean lightly reflective frosted-glass floor with delicate cyan/lavender reflections under the existing objects. Neutral cool daylight. Retain visible cream PAPER within the actual objects; do not turn the objects into glass. Do not import the beaker, prism, sphere, cubes, pedestal or any science objects from image 2. No added objects, text, people, symbols or watermarks. Seamless sophisticated pale blue background, not dark, not neon, no warm beige backdrop. Preserve the complete original composition in landscape 4:3, keep everything visible.",
+      "editTarget": "previous version of public/assets/play/sports-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "detective",
+      "files": [
+        "public/assets/play/detective-480.webp",
+        "public/assets/play/detective-800.webp",
+        "public/assets/play/detective-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: magnifying glass and paper evidence cards.",
+      "editTarget": "previous version of public/assets/play/detective-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "story",
+      "files": [
+        "public/assets/play/story-480.webp",
+        "public/assets/play/story-800.webp",
+        "public/assets/play/story-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: open book with two branching paper paths and a wooden bridge.",
+      "editTarget": "previous version of public/assets/play/story-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "city",
+      "files": [
+        "public/assets/play/city-480.webp",
+        "public/assets/play/city-800.webp",
+        "public/assets/play/city-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: a complete miniature architectural neighborhood on a base. Keep the model's ground, pathways, gardens and buildings exactly; change only the OUTER empty background and stage under the whole model.",
+      "editTarget": "previous version of public/assets/play/city-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "values",
+      "files": [
+        "public/assets/play/values-480.webp",
+        "public/assets/play/values-800.webp",
+        "public/assets/play/values-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: wooden balance scale holding a book and heart leaf plant. Preserve both pans and the balanced structure.",
+      "editTarget": "previous version of public/assets/play/values-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "reading",
+      "files": [
+        "public/assets/play/reading-480.webp",
+        "public/assets/play/reading-800.webp",
+        "public/assets/play/reading-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: open book, books and orange lamp. Preserve the lamp's gentle local warm glow on the paper but remove the warm room background.",
+      "editTarget": "previous version of public/assets/play/reading-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    },
+    {
+      "id": "learning-landscape-v2",
+      "files": [
+        "public/assets/play/learning-landscape-v2-480.webp",
+        "public/assets/play/learning-landscape-v2-800.webp",
+        "public/assets/play/learning-landscape-v2-1440.webp"
+      ],
+      "prompt": "Use case: compositing. Image 1 is the EDIT TARGET. Image 2 is ONLY a reference for the background color, light and floor material. Preserve image 1's exact scene composition, objects, camera, shapes, scale, arrangement and handcrafted paper/wood textures. Replace ONLY the surrounding warm beige/ivory background and floor with the cool luminous studio backdrop of image 2: pale ice blue, softly fading lavender, subtle cyan bounce light, lightly reflective frosted-glass floor with very delicate reflections underneath the existing objects. Neutral cool daylight. Keep cream paper INSIDE the objects; keep wood warm naturally; objects must not turn into glass. Do not add or import any beakers, prisms, spheres, cubes, pedestals or objects from image 2. No text, people, logos, extra objects or watermark. Landscape 4:3, preserve all original framing. The new BACKGROUND should be cool blue, no beige or warm-yellow backdrop. Target scene: open book with wooden bridge, orange basketball, colored paper arch and disc, wooden puzzles, cyan ruler and pencil. Keep these exact objects and proportions.",
+      "editTarget": "previous version of public/assets/play/learning-landscape-v2-1440.webp",
+      "reference": "public/assets/play/lab-1440.webp"
+    }
   ]
 }
