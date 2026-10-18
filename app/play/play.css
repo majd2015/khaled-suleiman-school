@@ -1887,3 +1887,96 @@
   align-items: center;
   min-height: 44px;
 }
+
+/* Editorial imagery balances the glass navigation and controls. */
+.play-hero-art {
+  background: #f7f2e8;
+  border: 0;
+  box-shadow: 0 20px 45px #4e443514;
+  overflow: hidden;
+  border-radius: 36px 12px 36px 12px;
+}
+.play-hero-art > img {
+  border: 0;
+  border-radius: inherit;
+}
+.play-card {
+  background: #fffdf9;
+  backdrop-filter: none;
+  border: 1px solid #e5e8ed;
+  box-shadow: 0 8px 22px #24354a0a;
+}
+.play-card-art {
+  background: #f3f0e9;
+}
+.play-card-copy {
+  background: #fffdf9;
+}
+.play-story {
+  background: #fffdf8;
+  border-radius: 24px;
+  padding: 22px;
+}
+.play-story-picture img {
+  border-radius: 19px;
+  box-shadow: 0 8px 25px #40342612;
+}
+.play-story-clue,
+.play-evidence {
+  padding: 17px 20px;
+  background: #f3f6fc;
+  border: 1px solid #d9e3f2;
+  border-radius: 16px;
+  margin-block: 18px;
+  text-align: right;
+}
+.play-story-clue strong,
+.play-evidence > strong {
+  color: #31547e;
+  font-size: 13px;
+}
+.play-story-clue p {
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+.play-evidence details {
+  background: #fff;
+  border: 1px solid #e0e6f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 10px;
+}
+.play-evidence summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+}
+.play-evidence details p {
+  font-size: 14px;
+  line-height: 1.9;
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .play-story {
+    padding: 12px;
+  }
+  .play-hero-art {
+    border-radius: 26px 10px 26px 10px;
+  }
+  .play-story-clue,
+  .play-evidence {
+    padding: 12px;
+  }
+  .play-evidence summary {
+    font-size: 13px;
+  }
+}
+
+.play-space .play-hero-art .play-float-one {
+  top: 14px;
+  right: 14px;
+}
+.play-space .play-hero-art .play-float-two {
+  left: 14px;
+  bottom: 14px;
+}

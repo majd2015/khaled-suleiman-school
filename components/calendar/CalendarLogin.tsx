@@ -1,8 +1,74 @@
 "use client";
-import {useState} from "react";
+import { useState } from "react";
 import Link from "next/link";
-import {LockKeyhole,ArrowLeft,CalendarDays} from "lucide-react";
-export default function CalendarLogin({configured}:{configured:boolean}){
- const [error,setError]=useState(""),[busy,setBusy]=useState(false);
- return <div className="cal-space"><div className="cal-login cal-glass"><span className="cal-symbol"><LockKeyhole size={30}/></span><p className="cal-kicker">مساحة إدارة المدرسة</p><h1>إدارة الرزنامة</h1><p>أضف المواعيد، رتّب تفاصيلها، وانشرها للطلاب والأهالي.</p>{configured?<form onSubmit={async e=>{e.preventDefault();setBusy(true);setError("");const data=new FormData(e.currentTarget);try{const r=await fetch("/api/calendar/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:data.get("password")})});const result=await r.json();if(!r.ok)throw new Error(result.error);window.location.reload();}catch(err){setError(err instanceof Error?err.message:"تعذّر الاتصال.");setBusy(false);}}}><label>كلمة مرور الإدارة<input type="password" name="password" autoComplete="current-password" required maxLength={256}/></label>{error&&<p className="cal-error" role="alert">{error}</p>}<button className="cal-btn primary" disabled={busy}>{busy?"جارٍ الدخول…":"دخول الإدارة"}<ArrowLeft size={18}/></button></form>:<p className="cal-notice">لم تُفعّل إدارة الرزنامة على هذا الخادم بعد. يحتاج مسؤول الموقع إلى إعداد بيانات الدخول أولًا.</p>}<Link className="cal-link" href="/calendar"><CalendarDays size={17}/> العودة إلى رزنامة المدرسة</Link><small>المواعيد تحفظ على خادم المدرسة. تنتهي جلسة الدخول بعد 8 ساعات.</small></div></div>;
+import { LockKeyhole, ArrowLeft, CalendarDays } from "lucide-react";
+export default function CalendarLogin({ configured }: { configured: boolean }) {
+  const [error, setError] = useState(""),
+    [busy, setBusy] = useState(false);
+  return (
+    <div className="cal-space">
+      <div className="cal-login cal-glass">
+        <span className="cal-symbol">
+          <LockKeyhole size={30} />
+        </span>
+        <p className="cal-kicker">مساحة إدارة المدرسة</p>
+        <h1>إدارة الرزنامة</h1>
+        <p>أضف المواعيد، رتّب تفاصيلها، وانشرها للطلاب والأهالي.</p>
+        {configured ? (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setBusy(true);
+              setError("");
+              const data = new FormData(e.currentTarget);
+              try {
+                const r = await fetch("/api/calendar/session", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ password: data.get("password") }),
+                });
+                const result = await r.json();
+                if (!r.ok) throw new Error(result.error);
+                window.location.reload();
+              } catch (err) {
+                setError(err instanceof Error ? err.message : "تعذّر الاتصال.");
+                setBusy(false);
+              }
+            }}
+          >
+            <label>
+              كلمة مرور الإدارة
+              <input
+                type="password"
+                name="password"
+                autoComplete="current-password"
+                required
+                maxLength={256}
+              />
+            </label>
+            {error && (
+              <p className="cal-error" role="alert">
+                {error}
+              </p>
+            )}
+            <button className="cal-btn primary" disabled={busy}>
+              {busy ? "جارٍ الدخول…" : "دخول الإدارة"}
+              <ArrowLeft size={18} />
+            </button>
+          </form>
+        ) : (
+          <p className="cal-notice">
+            لم تُفعّل إدارة الرزنامة على هذا الخادم بعد. يحتاج مسؤول الموقع إلى
+            إعداد بيانات الدخول أولًا.
+          </p>
+        )}
+        <Link className="cal-link" href="/calendar">
+          <CalendarDays size={17} /> العودة إلى رزنامة المدرسة
+        </Link>
+        <small>
+          المواعيد تحفظ على خادم المدرسة. تنتهي جلسة الدخول بعد 8 ساعات.
+        </small>
+      </div>
+    </div>
+  );
 }

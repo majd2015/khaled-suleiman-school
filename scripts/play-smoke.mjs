@@ -7,7 +7,6 @@ if (!["127.0.0.1", "localhost"].includes(new URL(base).hostname))
 const pages = [
   "/play",
   "/play/passport",
-  "/play/community",
   ...games.map((g) => "/play/" + g.slug),
 ];
 const assets = fs
@@ -24,6 +23,18 @@ for (const pathname of [...pages, ...assets]) {
   }
 }
 assert.equal((await fetch(base + "/play/not-a-game")).status, 404);
+for (const slug of ["creative-studio", "what-if"])
+  assert.equal((await fetch(base + "/play/" + slug)).status, 404);
+const retired = await fetch(base + "/play/community", { redirect: "manual" });
+assert.equal(retired.status, 307);
+assert.equal(retired.headers.get("location"), "/play");
+const catalog = await (await fetch(base + "/play")).text();
+for (const retired of [
+  "/play/community",
+  "/play/creative-studio",
+  "/play/what-if",
+])
+  assert.ok(!catalog.includes(retired));
 const articles = JSON.parse(
   fs.readFileSync(new URL("../content/articles.json", import.meta.url), "utf8"),
 );

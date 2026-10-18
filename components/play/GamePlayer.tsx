@@ -23,12 +23,7 @@ import {
 import { useProgress, StorageNotice } from "./Progress";
 import { GameArt } from "./Arena";
 import { Experiment, RobotGame, CityGame } from "./Simulations";
-import {
-  StoryGame,
-  CreativeGame,
-  ArticleGame,
-  type Reading,
-} from "./WritingGames";
+import { StoryGame, ArticleGame, type Reading } from "./WritingGames";
 export function QuizRound({
   items,
   onFinish,
@@ -93,6 +88,17 @@ export function QuizRound({
         {question.display && (
           <div className="play-question-display">{question.display}</div>
         )}
+        {question.evidence && (
+          <div className="play-evidence">
+            <strong>ملف الأدلة — موقف تدريبي متخيّل</strong>
+            {question.evidence.map((item) => (
+              <details key={item.title}>
+                <summary>{item.title}</summary>
+                <p>{item.text}</p>
+              </details>
+            ))}
+          </div>
+        )}
         <fieldset aria-labelledby="game-question" disabled={correct}>
           <legend className="sr-only">اختر إجابة</legend>
           {question.options.map((option, i) => (
@@ -144,7 +150,8 @@ export function QuizRound({
           <p>
             {correct
               ? question.explanation
-              : question.hint + " يمكنك تغيير اختيارك وإعادة المحاولة."}
+              : (question.feedback?.[selected!] || question.hint) +
+                " يمكنك تغيير اختيارك وإعادة المحاولة."}
           </p>
         </div>
       )}
@@ -266,7 +273,6 @@ export default function GamePlayer({
             {game.kind === "robot" && <RobotGame onFinish={finish} />}
             {game.kind === "city" && <CityGame onFinish={finish} />}
             {game.kind === "story" && <StoryGame onFinish={finish} />}
-            {game.kind === "creative" && <CreativeGame onFinish={finish} />}
             {game.kind === "article" && (
               <ArticleGame articles={reading || []} onFinish={finish} />
             )}

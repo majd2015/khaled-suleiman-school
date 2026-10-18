@@ -137,7 +137,7 @@ export default function Arena() {
           </div>
           <div className="play-hero-facts">
             <span>
-              <strong>12</strong> تجربة مختلفة
+              <strong>{games.length}</strong> تجارب مختلفة
             </span>
             <span>
               <strong>5</strong> عوالم للمعرفة
@@ -148,7 +148,11 @@ export default function Arena() {
           </div>
         </div>
         <div className="play-hero-art">
-          <GameArt id="arena-hero" priority />
+          <GameArt
+            id="learning-landscape-v2"
+            priority
+            alt="كتاب مفتوح وجسر وأدوات تعلم في مشهد ورقي دافئ"
+          />
           <span className="play-float play-float-one">
             <Sparkles size={18} />
             جرّب. اكتشف. ابتكر.
@@ -184,7 +188,7 @@ export default function Arena() {
           <div>
             <strong>رحلتك حتى الآن</strong>
             <span>
-              اكتملت {completed} من {games.length} تجربة
+              اكتملت {completed} من {games.length} تجارب
             </span>
             <progress
               max={games.length}
@@ -253,11 +257,13 @@ export default function Arena() {
         <div className="play-community-callout">
           <HeartHandshake size={34} />
           <div>
-            <span className="eyebrow">فكرتك تستحق مساحة</span>
-            <h2>من تجربة… إلى مشروع.</h2>
-            <p>جهّز فكرة مشروع، احتفظ بسؤالك، واختر موضوعًا تتمنى استكشافه.</p>
-            <Link className="btn ghost" href="/play/community">
-              افتح مساحة الأفكار <ArrowLeft size={18} />
+            <span className="eyebrow">كل تجربة تترك أثرًا</span>
+            <h2>فكرة اليوم… اكتشاف الغد.</h2>
+            <p>
+              تابع تجاربك، واحتفظ بتأملك بعد الحكاية، وعد إلى ما تريد استكشافه.
+            </p>
+            <Link className="btn ghost" href="/play/passport">
+              شاهد جواز تعلّمك <ArrowLeft size={18} />
             </Link>
           </div>
         </div>

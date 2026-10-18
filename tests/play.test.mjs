@@ -65,8 +65,14 @@ test("city accepts balanced affordable plans, rejects overspend and cannot doubl
   // The easy trio no longer passes; a real trade-off is needed at target 4.
   assert.equal(evaluateCity(["library", "garden", "court"]).success, false);
   assert.equal(evaluateCity(["library", "garden", "court"]).cost, 70);
-  assert.equal(evaluateCity(["library", "court", "solar", "cycle"]).success, true);
-  assert.equal(evaluateCity(["library", "garden", "court", "solar"]).success, true);
+  assert.equal(
+    evaluateCity(["library", "court", "solar", "cycle"]).success,
+    true,
+  );
+  assert.equal(
+    evaluateCity(["library", "garden", "court", "solar"]).success,
+    true,
+  );
   assert.equal(evaluateCity(cityFacilities.map((f) => f.id)).success, false);
   assert.equal(evaluateCity(["library", "library", "unknown"]).cost, 25);
   assert.equal(evaluateCity(["garden", "court"]).success, false);
@@ -102,20 +108,14 @@ test("daily suggestion is stable during one local day and changes across days", 
     dailyIndex(new Date(2026, 9, 18), 12),
   );
 });
-test("twelve activities have playable engines, valid answers and responsive generated assets", () => {
-  assert.equal(games.length, 12);
-  assert.equal(new Set(games.map((g) => g.slug)).size, 12);
+test("ten activities have playable engines, valid answers and responsive generated assets", () => {
+  assert.equal(games.length, 10);
+  assert.equal(new Set(games.map((g) => g.slug)).size, 10);
   for (const game of games) {
     assert.ok(
-      [
-        "quiz",
-        "experiment",
-        "robot",
-        "city",
-        "story",
-        "creative",
-        "article",
-      ].includes(game.kind),
+      ["quiz", "experiment", "robot", "city", "story", "article"].includes(
+        game.kind,
+      ),
     );
     for (const width of [480, 800, 1440])
       assert.ok(

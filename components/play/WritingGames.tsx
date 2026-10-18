@@ -1,95 +1,23 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  BookOpen,
-  Download,
-  Check,
-  PenLine,
-  RotateCcw,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, BookOpen, Check, RotateCcw } from "lucide-react";
 import { GameArt } from "./Arena";
 import { QuizRound } from "./GamePlayer";
-import { downloadText, useProgress } from "./Progress";
+import { useProgress } from "./Progress";
+import { story } from "@/content/story";
+
 type Finish = { onFinish: () => void };
-const story: Record<
-  string,
-  {
-    title: string;
-    text: string;
-    choices?: { text: string; next: string }[];
-    ending?: string;
-  }
-> = {
-  start: {
-    title: "المشروع الذي اختفى",
-    text: "صباح معرض العلوم، وصلت مجموعة الطلاب إلى الطاولة فوجدت نموذج الجسر مفقودًا. بقيت بطاقة صغيرة: «نقلناه إلى مكان أكثر أمانًا». لا يوجد اسم على البطاقة، والعرض يبدأ قريبًا. أنت ضمن الفريق؛ ماذا تقترح؟",
-    choices: [
-      { text: "نسأل المشرف ونراجع ما حدث بهدوء", next: "ask" },
-      { text: "نبحث في الأماكن القريبة ونقسّم المهمة", next: "search" },
-      { text: "نتهم المجموعة المجاورة فورًا", next: "accuse" },
-    ],
-  },
-  ask: {
-    title: "معلومة جديدة",
-    text: "قال المشرف إن الطاولة كانت قرب نافذة مفتوحة، لكنه لم ينقل النموذج بنفسه. اقترح سؤال فريق التنظيم. أمامكم وقت محدود، لكن يمكن توزيع الأدوار.",
-    choices: [
-      { text: "طالب يسأل التنظيم وآخر يجهّز شرح المشروع", next: "organize" },
-      { text: "نترك التحضير ونبحث جميعًا في المكان نفسه", next: "crowd" },
-    ],
-  },
-  search: {
-    title: "أثر في المكتبة",
-    text: "وجدتم على عربة قرب المكتبة قطعة من نفس الورق المستخدم في النموذج. هذا دليل محتمل، لكنه لا يخبركم من نقل المشروع أو لماذا.",
-    choices: [
-      { text: "نسأل مسؤولة المكتبة قبل لمس الأشياء", next: "found" },
-      { text: "نلتقط صورة وننشر أن المشروع سُرق", next: "repair" },
-    ],
-  },
-  accuse: {
-    title: "هل نعرف ما يكفي؟",
-    text: "تفاجأ الطلاب بالاتهام. أوضحوا أنهم كانوا في ساحة المدرسة، وأنهم رأوا فريق التنظيم يحمل صندوقًا. أصبح الجو متوترًا، لكن ما زالت أمامكم فرصة لتصحيح التصرف.",
-    choices: [
-      { text: "نعتذر عن الاتهام ونبحث عن الدليل", next: "organize" },
-      { text: "نطلب من المشرف تهدئة النقاش والتحقق", next: "repair" },
-    ],
-  },
-  crowd: {
-    title: "الوقت يمر",
-    text: "وصل الجميع إلى المخزن دون أن يبقى أحد عند الطاولة. وجدتم مسؤول التنظيم، لكنه يحتاج وصفًا دقيقًا للنموذج. اكتشفتم أن تقسيم الأدوار كان سيساعد.",
-    choices: [
-      { text: "نصف النموذج ويعود بعضنا لتجهيز العرض", next: "found" },
-      { text: "نجهّز عرضًا بديلًا ونواصل البحث بهدوء", next: "backup" },
-    ],
-  },
-  organize: {
-    title: "الفريق يكمل بعضه",
-    text: "عرفتم أن فريق التنظيم نقل النموذج بعيدًا عن النافذة لحمايته من المطر. كان يمكن تجنّب القلق بكتابة اسم المسؤول والمكان على البطاقة. وعاد المشروع في الوقت المناسب.",
-    ending: "تعاون ودليل",
-  },
-  found: {
-    title: "عاد الجسر",
-    text: "وجدتم النموذج في المكتبة، وقد نُقل لحمايته. شكرتم من ساعدكم، واقترحتم سجلًا بسيطًا يوضح مكان كل مشروع واسم من نقله. حوّلتم الموقف إلى تحسين يفيد الجميع.",
-    ending: "سؤال يصنع حلًا",
-  },
-  repair: {
-    title: "إصلاح الأثر",
-    text: "ساعد المشرف على التحقق، وعرفتم أن المشروع لم يُسرق. صحّحتم الخبر واعتذرتم عمّا سبّبته العجلة. ليس كل قرار موفقًا من البداية؛ الاعتراف والتصحيح جزء من التعلّم.",
-    ending: "شجاعة المراجعة",
-  },
-  backup: {
-    title: "الفكرة أهم من الشكل",
-    text: "عرضتم صور مراحل العمل وشرحتم كيف يحمل الجسر الأوزان. وصل النموذج قبل نهاية المعرض. تعلّمتم أن وجود خطة بديلة يخفف الارتباك ويساعد الفريق على الاستمرار.",
-    ending: "مرونة وخطة بديلة",
-  },
-};
 export function StoryGame({ onFinish }: Finish) {
   const [node, setNode] = useState("start"),
     [trail, setTrail] = useState<string[]>([]),
     [reflection, setReflection] = useState("");
   const { saveDraft } = useProgress();
   const scene = story[node];
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (node !== "start") heading.current?.focus();
+  }, [node]);
   return (
     <div className="play-story">
       <div className="play-story-picture">
@@ -98,8 +26,16 @@ export function StoryGame({ onFinish }: Finish) {
       </div>
       <div className="play-story-text">
         <span className="eyebrow">المشهد {trail.length + 1}</span>
-        <h2 tabIndex={-1}>{scene.title}</h2>
+        <h2 ref={heading} tabIndex={-1}>
+          {scene.title}
+        </h2>
         <p>{scene.text}</p>
+        {scene.clue && (
+          <aside className="play-story-clue">
+            <strong>في دفتر الأدلة</strong>
+            <p>{scene.clue}</p>
+          </aside>
+        )}
         {scene.choices ? (
           <div className="play-story-choices">
             {scene.choices.map((c) => (
@@ -119,10 +55,7 @@ export function StoryGame({ onFinish }: Finish) {
           <>
             <div className="play-feedback success">
               <strong>نهايتك: {scene.ending}</strong>
-              <p>
-                أكثر من طريق يمكن أن يحمل فكرة مفيدة. ليس الهدف الوصول إلى نهاية
-                واحدة.
-              </p>
+              <p>{scene.takeaway}</p>
             </div>
             <label className="play-field">
               ما الاختيار الذي أثّر في النهاية؟ وماذا كنت ستغيّر؟
@@ -142,7 +75,7 @@ export function StoryGame({ onFinish }: Finish) {
                 onClick={() => {
                   saveDraft(
                     "story-reflection",
-                    `النهاية: ${scene.ending}\n${reflection}`,
+                    `النهاية: ${scene.ending}\nالمسار: ${trail.join(" ← ")}\n${reflection}`,
                   );
                   onFinish();
                 }}
@@ -173,148 +106,6 @@ export function StoryGame({ onFinish }: Finish) {
             </ol>
           </details>
         )}
-      </div>
-    </div>
-  );
-}
-export function CreativeGame({ onFinish }: Finish) {
-  const { progress, ready, saveDraft } = useProgress();
-  const [image, setImage] = useState("story"),
-    [title, setTitle] = useState(""),
-    [body, setBody] = useState(""),
-    [reviewed, setReviewed] = useState(false),
-    [notice, setNotice] = useState("");
-  useEffect(() => {
-    if (ready) {
-      const savedImage = progress.drafts["creative-image"];
-      if (["story", "city", "robot"].includes(savedImage)) setImage(savedImage);
-      const draft = progress.drafts["creative-writing"];
-      if (draft) {
-        const [savedTitle, ...rest] = draft.split("\n");
-        setTitle(savedTitle);
-        setBody(rest.join("\n"));
-      }
-    }
-  }, [ready]);
-  const valid = title.trim().length >= 3 && body.trim().length >= 80;
-  const text = () => `${title.trim()}\n${body.trim()}`;
-  return (
-    <div>
-      <div className="play-instructions">
-        <strong>صورة واحدة، أفكار لا تنتهي.</strong>
-        <p>
-          اختر صورة، اكتب عنوانًا وقصة قصيرة أو تفسيرًا مبتكرًا. راجع النص
-          بنفسك؛ لا توجد علامة آلية تحكم على إبداعك.
-        </p>
-      </div>
-      <div className="play-creative-grid">
-        <div>
-          <div className="play-creative-image">
-            <GameArt
-              id={image}
-              alt={
-                image === "city"
-                  ? "حي زجاجي مصغّر فيه مكتبة وحديقة وملعب ومسار دراجات وألواح شمسية."
-                  : image === "robot"
-                    ? "روبوت على شبكة مربعات زجاجية أمامه طريق وعوائق برتقالية ووجهة مضيئة."
-                    : "كتاب مفتوح تخرج منه طرق متفرّعة نحو بوصلة وفقاعات حوار ونبتة."
-              }
-            />
-          </div>
-          <div className="play-presets">
-            {[
-              ["story", "حكاية"],
-              ["city", "مدينة"],
-              ["robot", "روبوت"],
-            ].map(([id, label]) => (
-              <button
-                key={id}
-                aria-pressed={image === id}
-                className={image === id ? "active" : ""}
-                onClick={() => setImage(id)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <div className="play-hint">
-            <strong>أسئلة تفتح الفكرة</strong>
-            <p>
-              ماذا حدث قبل هذه اللحظة؟ ما المشكلة؟ كيف يتغيّر المشهد بعد قرار
-              ذكي أو تصرّف لطيف؟
-            </p>
-          </div>
-        </div>
-        <div>
-          <label className="play-field">
-            عنوان فكرتك
-            <input
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                setReviewed(false);
-              }}
-              maxLength={100}
-              placeholder="عنوان من اختيارك…"
-            />
-          </label>
-          <label className="play-field">
-            قصتك أو تفسيرك
-            <textarea
-              rows={9}
-              value={body}
-              onChange={(e) => {
-                setBody(e.target.value);
-                setReviewed(false);
-              }}
-              maxLength={3000}
-              placeholder="ابدأ من تفصيل صغير في الصورة…"
-            />
-          </label>
-          <small>عدد الأحرف: {body.trim().length} (الحد الأدنى 80)</small>
-          <label className="play-checkbox">
-            <input
-              type="checkbox"
-              checked={reviewed}
-              onChange={(e) => setReviewed(e.target.checked)}
-            />
-            راجعت وضوح الفكرة، وترابط الجمل، وعلامات الترقيم.
-          </label>
-          <div className="actions">
-            <button
-              className="btn ghost"
-              disabled={!title.trim() && !body.trim()}
-              onClick={() => {
-                saveDraft("creative-writing", text());
-                saveDraft("creative-image", image);
-                setNotice("حُفظت المسودة. يمكنك العودة إليها في نفس المتصفح.");
-              }}
-            >
-              <PenLine size={16} />
-              حفظ مسودة
-            </button>
-            <button
-              className="btn ghost"
-              disabled={!valid}
-              onClick={() => downloadText("afaq-my-story.txt", text())}
-            >
-              <Download size={16} />
-              تنزيل النص
-            </button>
-            <button
-              className="btn"
-              disabled={!valid || !reviewed}
-              onClick={() => {
-                saveDraft("creative-writing", text());
-                saveDraft("creative-image", image);
-                onFinish();
-              }}
-            >
-              أنهِ تجربتي
-            </button>
-          </div>
-          <p role="status">{notice}</p>
-        </div>
       </div>
     </div>
   );
