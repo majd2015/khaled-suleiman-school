@@ -1,0 +1,12 @@
+Design mix validation — 2026-10-18
+
+Build: npm run build:windows passed, 91 generated pages. Type checks passed.
+Existing automated suite: 26 passed, 0 failed.
+HTTP smoke checks: 75 site pages and 171 article/illustration assets; all passed. Arabic RTL and one H1 checked; unknown article 404; unauthorized social publishing 401; demo calendar events excluded from ICS.
+Arena smoke checks: 12 pages, 42 image files and 44 article links; all passed. Retired routes remain removed/redirected.
+Image validation: 14 new selected image families, 42 WebP variants with exact 4:3 dimensions; 24 site variants verified non-opaque alpha. Four additional responsive files were created from the two retained glass site originals. Total written image files: 46 (4,808,808 bytes).
+Preservation check: hashes for the 2 retained site glass originals, 12 retained game glass variants, brand.ts, content/articles.json and lib/models/index.mjs match HEAD before this change.
+Browser checks: home, article library, article reader, grades, participation, arena and school pages checked at 1440px and 390px; no horizontal overflow, one H1 and no broken visible images in all 14 viewport/page checks. Article reader also checked at 320px and 390px with enlarged text (20px), without overflow. Reader computed background is rgb(255,253,249); desktop panel is 780px wide. Browser warning/error log was empty after the production preview checks.
+Visual review: desktop and mobile home, mixed game cards, and desktop/mobile reading panel inspected. Screenshots saved locally for handoff.
+Scope: presentation and generated artwork only. No calendar data, auth, storage, article text/cover, game-engine, 3D model or database changes. No public deployment.
+PR4 is not merged by this change. Only its responsive Illustration component and corrected illustration dimensions were reused. Its old image variants must not overwrite the new selected artwork during a later merge.

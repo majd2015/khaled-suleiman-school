@@ -1,6 +1,6 @@
 .play-space {
   --play-line: #dce5f1;
-  --play-paper: linear-gradient(145deg, #ffffffed, #f5f9ffdb);
+  --play-paper: var(--paper, #fffdf9);
   background:
     radial-gradient(ellipse at 0 0, #e6e9ff80, transparent 34%),
     radial-gradient(ellipse at 100% 18%, #d8f7ff70, transparent 30%);

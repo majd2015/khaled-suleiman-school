@@ -282,10 +282,10 @@ export default async function Home() {
             </div>
           </div>
           <img
-            src="/assets/play/arena-hero-800.webp"
+            src="/assets/play/learning-landscape-v2-800.webp"
             width={800}
             height={600}
-            alt="تكوين تعليمي زجاجي يجمع روبوتًا وكتابًا وكرة وألغازًا"
+            alt="مشهد تعليمي من الورق والخشب يجمع التعلم والرياضة والألعاب"
             loading="lazy"
             style={{ borderRadius: 30, width: "100%" }}
           />

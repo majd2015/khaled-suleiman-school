@@ -1,10 +1,13 @@
-/* Shared glass system. Keep tokens in brand.ts; all pages use this layer. */
+/* Shared identity: glass controls and warm opaque editorial surfaces. */
 :root {
   color-scheme: light;
   --radius: 26px;
   --shadow: inset 0 1px 1px #fff, 0 10px 28px #344d6f0d, 0 3px 0 #dce6f180;
   --glass: linear-gradient(145deg, #fffffff5, #f8fbfff2 60%, #eaf1ffdd);
   --control-radius: 14px;
+  --paper: #fffdf9;
+  --paper-line: #e7e2d9;
+  --paper-shadow: 0 10px 30px #493d2a0a;
 }
 * {
   box-sizing: border-box;
@@ -469,16 +472,10 @@ main {
 .knowledge-panel {
   position: relative;
   padding: 40px;
-  border: 1px solid #fff;
+  border: 1px solid #dfe7f0;
   border-radius: 32px;
-  background:
-    radial-gradient(at 100% 80%, #d2f0fb80, transparent 55%),
-    radial-gradient(at 0 0, #e3dbff80, transparent 50%),
-    linear-gradient(130deg, #ecf4ffb0, #ffffff8a);
-  box-shadow:
-    inset 0 0 0 7px #ffffff40,
-    0 0 0 1px #dae5f1,
-    0 20px 40px #3d5a7d08;
+  background: #edf3fb;
+  box-shadow: 0 12px 35px #344d6f08;
 }
 .knowledge-panel .eyebrow {
   font-size: 12px;
@@ -493,13 +490,10 @@ main {
   display: block;
   position: relative;
   padding: 26px 22px 20px;
-  border: 1px solid white;
+  border: 1px solid var(--paper-line);
   border-radius: 24px;
-  background: linear-gradient(145deg, #ffffffdc, #ffffff80);
-  box-shadow:
-    0 12px 23px color-mix(in srgb, var(--tone) 9%, transparent),
-    inset 0 2px 1px white,
-    0 4px 0 #cbd9ee35;
+  background: var(--paper);
+  box-shadow: var(--paper-shadow);
   color: var(--text);
   transition: transform 0.25s;
 }
@@ -525,15 +519,9 @@ main {
   height: 68px;
   border: 1px solid white;
   border-radius: 19px;
-  background: linear-gradient(
-    145deg,
-    #fff,
-    color-mix(in srgb, var(--tone) 13%, white)
-  );
-  box-shadow:
-    inset 0 2px 1px #fff,
-    0 5px 0 color-mix(in srgb, var(--tone) 13%, #dbe5f1),
-    0 10px 20px color-mix(in srgb, var(--tone) 17%, transparent);
+  background: color-mix(in srgb, var(--tone, var(--primary)) 8%, var(--paper));
+  box-shadow: 0 4px 0
+    color-mix(in srgb, var(--tone, var(--primary)) 16%, #e7e2d9);
   color: var(--tone);
   margin-bottom: 27px;
   transform: rotate(-5deg);
@@ -567,13 +555,11 @@ main {
   gap: 24px;
 }
 .card {
-  background: var(--glass);
-  border: 1px solid #fff;
+  background: var(--paper);
+  border: 1px solid var(--paper-line);
   border-radius: var(--radius);
   padding: 26px;
-  box-shadow:
-    var(--shadow),
-    0 0 0 1px #dde7f070;
+  box-shadow: var(--paper-shadow);
 }
 .card h3 {
   margin: 0 0 12px;
@@ -671,12 +657,10 @@ main {
   flex-direction: column;
   min-width: 0;
   border-radius: 26px;
-  background: var(--glass);
-  border: 1px solid white;
+  background: var(--paper);
+  border: 1px solid var(--paper-line);
   overflow: hidden;
-  box-shadow:
-    var(--shadow),
-    0 0 0 1px #dce5f180;
+  box-shadow: var(--paper-shadow);
   transition:
     transform 0.2s,
     box-shadow 0.2s;
@@ -779,11 +763,7 @@ main {
   --gc: var(--g7);
   color: var(--text);
   transition: transform 0.2s;
-  background: linear-gradient(
-    140deg,
-    #ffffffed,
-    color-mix(in srgb, var(--gc) 4%, #fff)
-  );
+  background: var(--paper);
   border: 1px solid color-mix(in srgb, var(--gc) 15%, white);
 }
 .grade-tile:hover {
@@ -841,12 +821,10 @@ main {
   gap: 40px;
   align-items: center;
   padding: 45px 55px;
-  background:
-    radial-gradient(at 0 100%, #d8ccff75, transparent 60%),
-    linear-gradient(120deg, #e9f7fc, #eef1ff);
+  background: var(--paper);
   border-radius: 32px;
-  border: 1px solid white;
-  box-shadow: var(--shadow);
+  border: 1px solid var(--paper-line);
+  box-shadow: var(--paper-shadow);
 }
 .participation-banner h2 {
   font-size: 40px;
@@ -1149,12 +1127,10 @@ input[type="radio"] {
   width: 54px;
   height: 54px;
   border-radius: 16px;
-  background: linear-gradient(140deg, #fff, #dceeff);
+  background: color-mix(in srgb, var(--tone, var(--primary)) 8%, var(--paper));
   color: var(--ic, var(--primary));
-  box-shadow:
-    inset 0 1px 1px #fff,
-    0 3px 0 #bfd4ee55,
-    0 7px 12px #5577a313;
+  box-shadow: 0 4px 0
+    color-mix(in srgb, var(--tone, var(--primary)) 16%, #e7e2d9);
   margin-bottom: 19px;
 }
 .mobile-break {

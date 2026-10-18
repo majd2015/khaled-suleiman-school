@@ -129,7 +129,7 @@ export default function ScienceLab({
                 src={"/assets/illustrations/" + subject.fallback + ".webp"}
                 width={1600}
                 height={1200}
-                alt="تكوين زجاجي مستوحى من مجالات المعرفة"
+                alt="تكوين تعليمي مستوحى من مجالات المعرفة"
               />
               <button className="btn" onClick={() => setEnabled(true)}>
                 <Box size={19} /> افتح المجسّم التفاعلي
