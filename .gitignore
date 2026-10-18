@@ -2,8 +2,16 @@ node_modules
 .next
 .next-preview
 .next-final
+.next-games
+.next-games-build
 out
 .env*.local
 .env
 *.tsbuildinfo
 next-env.d.ts
+
+.calendar-data/
+
+.next-calendar
+
+.next-calendar-build

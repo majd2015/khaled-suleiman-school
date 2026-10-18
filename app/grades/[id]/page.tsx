@@ -1,13 +1,14 @@
+import { readEvents } from "@/lib/calendar-store";
+import { isPublic, occurrences, todayInSchool, addDays, statusLabels } from "@/lib/calendar";
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { announcements, challenges, events, grades, news } from "@/content/data";
+import { announcements, challenges, grades, news } from "@/content/data";
 import Illustration from "@/components/Illustration";
 import { gradeIllustration } from "@/content/assets";
 import { AnnouncementCard, NewsCard, PageHead, formatDate } from "@/components/ui";
 
-export function generateStaticParams() {
-  return grades.map((g) => ({ id: String(g.id) }));
-}
+
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,8 +19,10 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
   const { id } = await params;
   const grade = grades.find((g) => String(g.id) === id);
   if (!grade) notFound();
+  const today = todayInSchool();
+  const events = occurrences((await readEvents()).filter(isPublic), today, addDays(today, 366));
   const forGrade = <T extends { grades?: number[] }>(list: T[]) =>
-    list.filter((x) => !x.grades || x.grades.includes(grade.id));
+    list.filter((x) => !x.grades?.length || x.grades.includes(grade.id));
 
   return (
     <>
@@ -55,11 +58,11 @@ export default async function GradePage({ params }: { params: Promise<{ id: stri
           <div className="table-wrap" tabIndex={0} role="region" aria-label="مواعيد الصف"><table className="cal-table">
             <tbody>
               {forGrade(events).map((e) => (
-                <tr key={e.id}>
-                  <td>{formatDate(e.date)}</td>
-                  <td>{e.title}</td>
+                <tr key={e.key}>
+                  <td>{formatDate(e.occurrenceDate)}</td>
+                  <td><Link href={`/calendar?view=day&date=${e.occurrenceDate}&event=${e.id}`}>{e.title}</Link></td>
                   <td className={`type-${e.type}`}>{e.type}</td>
-                  <td>{e.sample ? "تجريبي" : e.confirmed ? "مؤكد" : "مقترح"}</td>
+                  <td>{e.sample ? "تجريبي" : statusLabels[e.status]}</td>
                 </tr>
               ))}
             </tbody>

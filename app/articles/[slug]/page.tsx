@@ -150,6 +150,16 @@ export default async function ArticlePage({
               </ul>
             </section>
             <ArticleQuiz question={a.question} />
+            <div className="reader-activity">
+              <h2>حوّل القراءة إلى تجربة.</h2>
+              <p>اختبر فهمك، واكتب تطبيقًا للفكرة، وأضفها إلى جواز تعلّمك.</p>
+              <Link
+                className="btn"
+                href={`/play/article-quest?article=${a.slug}`}
+              >
+                ابدأ تحدّي هذا المقال ←
+              </Link>
+            </div>
             <section className="reader-sources" id="sources">
               <h2>المصادر ومسار القراءة</h2>
               <ul>

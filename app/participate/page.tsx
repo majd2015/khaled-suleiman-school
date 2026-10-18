@@ -7,6 +7,7 @@ import { IconBadge } from "@/components/icons";
 export const metadata = { title: "شارك" };
 
 const items = [
+  { href: "/play", art: "challenge-lab", icon: "challenges", title: "ساحة التحدّيات", text: "10 تجارب تفاعلية: ألغاز ورياضة وبرمجة وقصص وقيم، مع جواز تعلّمك." },
   { href: "/challenges", art: "challenge-lab", icon: "challenges", title: "تحدَّ نفسك", text: "تحديات يومية وأسبوعية في كل المواد." },
   { href: "/participate/debate", art: "debate-dialogue", icon: "debate", title: "منبر المناظرة", text: "سؤال أسبوعي، اكتب رأيك مع الدليل." },
   { href: "/participate/vote", art: "vote-voice", icon: "vote", title: "التصويت", text: "استطلاعات للطلاب والأهالي والمعلمين." },
